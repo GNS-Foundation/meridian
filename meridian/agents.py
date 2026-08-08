@@ -45,12 +45,13 @@ class SyntheticAgent:
     def to_public(self) -> AgentPublic:
         return AgentPublic(agent_key=self.agent_key, agent_handle=self.agent_handle, model_id=self.model_id)
 
-    def decide(self, inv: InvoiceObservable, true_pay_prob: float, rng: np.random.Generator, *,
+    def decide(self, inv: InvoiceObservable, base_pp: float, rng: np.random.Generator, *,
                judgment_threshold: float, certify_threshold: float = 0.5) -> Decision:
         """Make an underwriting decision. Sub-threshold amounts are auto-approved by a deterministic
         RULE (verifiability_tag='rule', not CGR-scored). Larger amounts are JUDGMENT calls: the agent
-        forms a capability-noised estimate of the true pay-likelihood and advances iff it clears the
-        bar. `context` carries only observable features — no ground truth, no PII."""
+        forms a capability-noised estimate of the invoice's intrinsic pay-likelihood (base_pp) and
+        advances iff it clears the bar — the SELECTION channel (capable agents certify payers, reject
+        defaulters). `context` carries only observable features — no ground truth, no PII."""
         context = {
             "amount": inv.amount, "currency": inv.currency, "tenor_days": inv.tenor_days,
             "sector": inv.sector, "risk_signal": inv.risk_signal, "client_id": inv.client_id,
@@ -61,9 +62,9 @@ class SyntheticAgent:
                 invoice_id=inv.invoice_id, decision="certify", verifiability_tag="rule",
                 reason=f"auto-approved: amount {inv.amount:.0f} < judgment threshold", context=context,
             )
-        # judgment call — capability shrinks observation noise
-        obs_noise = 0.05 + 0.45 * (1.0 - self.capability)
-        estimate = float(np.clip(true_pay_prob + rng.normal(0.0, obs_noise), 0.0, 1.0))
+        # judgment call — capability shrinks observation noise (weak agents ≈ blind → certify ~randomly)
+        obs_noise = 0.05 + 0.75 * (1.0 - self.capability)
+        estimate = float(np.clip(base_pp + rng.normal(0.0, obs_noise), 0.0, 1.0))
         advance = estimate >= certify_threshold
         return Decision(
             agent_key=self.agent_key, agent_handle=self.agent_handle, model_id=self.model_id,
