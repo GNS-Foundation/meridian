@@ -19,8 +19,11 @@ DECLARE
 BEGIN
   INSERT INTO tenants (id, name, api_key, plan, created_at, home_region)
     VALUES (v_tenant, 'Meridian Virtual Bank', v_key, 'pro', now(), 'global');
+  -- LEAST-PRIVILEGE key (no admin/'*' shortcut): governed decisions/outcomes have no scope gate,
+  -- so cgr:read + decisions:read suffices to POST decisions/outcomes AND read reputation/substrate back.
   INSERT INTO tenant_api_keys (key_id, tenant_id, api_key, name, role, scopes, created_at)
-    VALUES (gen_random_uuid()::text, v_tenant, v_key, 'meridian-sim', 'admin', ARRAY['*'], now());
+    VALUES (gen_random_uuid()::text, v_tenant, v_key, 'meridian-sim', 'service',
+            ARRAY['cgr:read','decisions:read'], now());
   RAISE NOTICE 'MERIDIAN virtualbank  tenant_id=%  api_key=%', v_tenant, v_key;
 END $$;
 -- verify-after (as superuser): SELECT id,name,plan FROM tenants WHERE name='Meridian Virtual Bank';
