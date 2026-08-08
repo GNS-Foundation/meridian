@@ -1,0 +1,26 @@
+[project]
+name = "meridian"
+version = "0.1.0"
+description = "Meridian — a synthetic commercial + trade-finance bank that runs the real governed loop on Grafomem. The SIM only; scoring stays in Grafomem behind a swappable Scorer boundary."
+requires-python = ">=3.11"
+dependencies = [
+    "numpy>=1.26",
+    "scipy>=1.11",
+    "pydantic>=2.6",
+    "faker>=24.0",
+    "httpx>=0.27",
+    "cryptography>=42.0",   # local Ed25519 agent identities only
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0", "ruff>=0.4"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["meridian"]
+
+[project.scripts]
+meridian = "meridian.driver:main"

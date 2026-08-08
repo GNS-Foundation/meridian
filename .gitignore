@@ -1,0 +1,31 @@
+# ─── secrets — NEVER commit ───────────────────────────────────────────────
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+**/secrets/**
+
+# ─── ground-truth answer key — STAYS LOCAL, never committed, never posted ──
+ground_truth/
+*.ground_truth.json
+*.groundtruth.*
+episodes/
+*.episode.json
+
+# ─── python ───────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+dist/
+build/
+
+# ─── os / editor ──────────────────────────────────────────────────────────
+.DS_Store
+.idea/
+.vscode/
