@@ -15,7 +15,8 @@
 DO $$
 DECLARE
   v_tenant text := replace(gen_random_uuid()::text, '-', '');
-  v_key    text := 'gfm_' || encode(gen_random_bytes(24), 'hex');
+  -- core gen_random_uuid() (no pgcrypto dependency); two uuids → 64 hex chars of entropy
+  v_key    text := 'gfm_' || replace(gen_random_uuid()::text, '-', '') || replace(gen_random_uuid()::text, '-', '');
 BEGIN
   INSERT INTO tenants (id, name, api_key, plan, created_at, home_region)
     VALUES (v_tenant, 'Meridian Virtual Bank', v_key, 'pro', now(), 'global');
