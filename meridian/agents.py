@@ -41,6 +41,7 @@ class SyntheticAgent:
     agent_handle: str
     _priv: ed25519.Ed25519PrivateKey
     model_id: str = "meridian-underwriter-v1"
+    kind: str = "honest"                               # HIDDEN ground-truth label: honest | fraud_ring | bustout
 
     def to_public(self) -> AgentPublic:
         return AgentPublic(agent_key=self.agent_key, agent_handle=self.agent_handle, model_id=self.model_id)
@@ -77,8 +78,13 @@ class SyntheticAgent:
         )
 
 
-def mint_agents(seed: int, n_agents: int = 20) -> list[SyntheticAgent]:
-    """Deterministically mint `n_agents` with a spread of hidden capability."""
+def mint_agents(seed: int, n_agents: int = 20, *, n_fraud: int = 0,
+                bustout: int = 0) -> list[SyntheticAgent]:
+    """Deterministically mint `n_agents` with a spread of hidden capability. The LAST `n_fraud`
+    are the collusive ring and the `bustout` before those are bust-out actors (B2a). Fraud must be a
+    minority; their identities/keys are indistinguishable from honest agents on the wire — the `kind`
+    label is hidden ground truth, never posted."""
+    assert n_fraud + bustout < n_agents, "fraud actors must be a minority"
     rng = np.random.default_rng(seed ^ 0xA6E17)
     agents: list[SyntheticAgent] = []
     for i in range(n_agents):
@@ -88,4 +94,8 @@ def mint_agents(seed: int, n_agents: int = 20) -> list[SyntheticAgent]:
             index=i, capability=capability, agent_key=pub_hex,
             agent_handle=f"underwriter-{i:02d}@virtualbank", _priv=priv,
         ))
+    for a in agents[n_agents - n_fraud:]:                       # last n_fraud → the ring
+        a.kind = "fraud_ring"
+    for a in agents[n_agents - n_fraud - bustout:n_agents - n_fraud]:
+        a.kind = "bustout"
     return agents
