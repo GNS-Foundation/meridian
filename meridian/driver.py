@@ -118,18 +118,19 @@ def run_episode(scorer: Scorer, *, seed: int = 42, n_agents: int = 20, episode: 
         ev.default += int(o.outcome == "default")
 
     # ── read CGR reputation back (Grafomem computes; sim only reads) ──
-    reps = scorer.reputation()
+    # Scope every metric to THIS episode's agents (cap_by_key) — the tenant may hold other episodes,
+    # so summing over all agents would mismatch this episode's judgment_certifies.
+    reps = [r for r in scorer.reputation() if r.agent_key in cap_by_key]
     if reps:
         ev.cgr_n_resolved = sum(r.n_resolved for r in reps)
         ev.cgr_n_pending = sum(r.n_pending for r in reps)
         rows, caps, scores = [], [], []
         for r in sorted(reps, key=lambda x: x.cgr_score, reverse=True):
-            cap = cap_by_key.get(r.agent_key)
+            cap = cap_by_key[r.agent_key]
             rows.append({"agent_handle": r.agent_handle or handle_by_key.get(r.agent_key),
                          "cgr_score": round(r.cgr_score, 4), "n_resolved": r.n_resolved,
-                         "n_pending": r.n_pending, "hidden_capability": None if cap is None else round(cap, 3)})
-            if cap is not None:
-                caps.append(cap); scores.append(r.cgr_score)
+                         "n_pending": r.n_pending, "hidden_capability": round(cap, 3)})
+            caps.append(cap); scores.append(r.cgr_score)
         ev.reputation_ordering = rows
         if len(caps) >= 3 and len(set(scores)) > 1:
             from scipy.stats import spearmanr

@@ -121,8 +121,10 @@ class GrafomemScorer:
         } for o in outcomes])
         return len(outcomes)
 
-    def reputation(self) -> list[ReputationView]:
-        r = self._send("GET", "/v1/cgr/scores")
+    def reputation(self, limit: int = 5000) -> list[ReputationView]:
+        # score the FULL tenant — /v1/cgr/scores defaults to limit=500, which under-scans a large
+        # tenant and undercounts n_resolved. Pass a high limit so every decision is scored.
+        r = self._send("GET", f"/v1/cgr/scores?limit={limit}")
         out: list[ReputationView] = []
         for s in (r.json() or {}).get("scores", []):
             out.append(ReputationView(
