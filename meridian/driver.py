@@ -62,7 +62,7 @@ class EvidencePack:
     reputation_ordering: list[dict] = field(default_factory=list)
     capability_score_spearman: float | None = None
     join_verify: str = ""
-    # B2a fraud contrast
+    # SIM-B2a fraud contrast
     naive_honest_mean: float | None = None
     naive_fraud_mean: float | None = None
     naive_gap: float | None = None
@@ -126,7 +126,7 @@ def _tallies(events) -> dict:
 def fraud_contrast(*, seed: int = 200, n_agents: int = 20, n_fraud: int = 3, bustout: int = 0,
                    n_invoices: int = 1200, n_clients: int = 60, rule_pad_rate: float | None = None,
                    fraud_decisions_per_agent: int = 60) -> dict:
-    """OFFLINE acceptance gate (Cowork B2a): on the ground-truth book, a NAIVE raw paid-fraction must
+    """OFFLINE acceptance gate (Cowork SIM-B2a): on the ground-truth book, a NAIVE raw paid-fraction must
     be ~blind to fraud (|gap| < 0.10) while the JUDGMENT-only rate (what CGR scores) clearly flags it
     (gap < −0.30). Uses no CGR code — just the realized paid-rates the sim knows. Prove the contrast
     before spending a live run."""
@@ -305,8 +305,8 @@ def main(argv=None) -> None:
     ap.add_argument("--agents", type=int, default=20)
     ap.add_argument("--clients", type=int, default=60)
     ap.add_argument("--invoices", type=int, default=1200)
-    ap.add_argument("--n-fraud", type=int, default=0, help="collusive-ring agents (B2a); minority")
-    ap.add_argument("--bustout", type=int, default=0, help="bust-out agents (B2a)")
+    ap.add_argument("--n-fraud", type=int, default=0, help="collusive-ring agents (SIM-B2a); minority")
+    ap.add_argument("--bustout", type=int, default=0, help="bust-out agents (SIM-B2a)")
     ap.add_argument("--rule-pad-rate", type=float, default=None, help="fraud ring's healthy rule-paid fraction")
     ap.add_argument("--fraud-decisions", type=int, default=60, help="decisions per fraud agent")
     ap.add_argument("--episode", default=None, help="namespace for invoice ids (default: fresh, idempotent)")
@@ -315,7 +315,7 @@ def main(argv=None) -> None:
     ap.add_argument("--check-coupling", action="store_true",
                     help="offline gate: Spearman(capability, certified-book paid-rate); no posting")
     ap.add_argument("--check-fraud", action="store_true",
-                    help="offline gate: naive-blind vs judgment-only-flags contrast (B2a); no posting")
+                    help="offline gate: naive-blind vs judgment-only-flags contrast (SIM-B2a); no posting")
     args = ap.parse_args(argv)
 
     if args.check_coupling:

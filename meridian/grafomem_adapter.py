@@ -4,7 +4,7 @@ Posts governed decisions + outcomes and reads CGR reputation back. Credentials c
 (never chat, never git). This is the ONLY module that talks to Grafomem; it contains no CGR logic —
 it maps the sim's records onto the two ingestion endpoints and reads scores back.
 
-Join contract (verified in B1 Step-0): the server pseudonymizes the RAW `invoice_id` identically on
+Join contract (verified in SIM-B1 Step-0): the server pseudonymizes the RAW `invoice_id` identically on
 the decision (`invoice_id`) and the outcome (`invoice_ref`). So we POST the SAME raw id on both
 sides; do NOT pre-pseudonymize. (The DoD's live join-verify proves this resolves.)
 """

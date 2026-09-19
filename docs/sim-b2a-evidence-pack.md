@@ -1,4 +1,4 @@
-# B2a — competence-fraud catch (the money demo)
+# SIM-B2a — competence-fraud catch (the money demo)
 
 **Live episode `b2a1`, seed 300, tenant `virtualbank` on the production Grafomem runtime.**
 Sim-side only — no Grafomem change. A 3-agent collusive ring (of 20 underwriters) pads a healthy
@@ -43,11 +43,11 @@ judgment `gap < −0.30`. Live episode reproduces it: naive −0.003, judgment �
 - **Live join-verify:** `409 judgment-certifies posted → 409 resolved (OK)`; `cgr_n_pending: 0`. No
   silent-no-op — outcomes actually joined to decisions on the live runtime.
 - **Tenant isolation:** the virtualbank key sees **80 agents, all `@virtualbank`, zero leak** (60 from
-  B1 + 20 from B2a). No cross-tenant visibility.
+  SIM-B1 + 20 from SIM-B2a). No cross-tenant visibility.
 - **Determinism + idempotency:** everything derives from `--seed 300`; invoice ids namespaced by
   `--episode b2a1` (fresh → no double-post). Re-runnable to identical content.
 - **Honest coupling still holds:** capability↔CGR Spearman 0.566 on the honest cohort (noisier than
-  B1's 0.85 with 17 vs 20 honest agents and smaller per-agent n, but the ordering is intact).
+  SIM-B1's 0.85 with 17 vs 20 honest agents and smaller per-agent n, but the ordering is intact).
 - **Moat boundary intact:** the SIM contains no CGR/scoring/vault code and imports nothing from
   aml/grafomem (test-enforced). CGR is computed entirely by the live Grafomem runtime.
 

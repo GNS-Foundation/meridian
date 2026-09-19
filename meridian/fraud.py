@@ -1,4 +1,4 @@
-"""B2a fraud injection — competence-fraud vectors, all caught by JUDGMENT-ONLY CGR.
+"""SIM-B2a fraud injection — competence-fraud vectors, all caught by JUDGMENT-ONLY CGR.
 
 The whole point: a fraud agent's *raw* book looks healthy (a naive paid-fraction can't distinguish
 it), but its *judgment-tagged* book is rotten — and CGR scores only judgment+certify, so it collapses

@@ -1,6 +1,6 @@
-"""B2a offline acceptance gate (Cowork): on the ground-truth book the collusive ring must be
+"""SIM-B2a offline acceptance gate (Cowork): on the ground-truth book the collusive ring must be
 INVISIBLE to a naive raw paid-fraction (|gap| < 0.10) yet clearly flagged by the judgment-only rate
-that CGR scores (gap < −0.30). Prove the contrast before spending a live run — the B1 discipline."""
+that CGR scores (gap < −0.30). Prove the contrast before spending a live run — the SIM-B1 discipline."""
 from __future__ import annotations
 
 import pytest

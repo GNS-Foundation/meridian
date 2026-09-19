@@ -1,7 +1,7 @@
 # Meridian
 
 A synthetic commercial + trade-finance bank that runs the **real governed loop** on
-[Grafomem](https://github.com/GNS-Foundation) — the *spine* (B1). Synthetic underwriting agents
+[Grafomem](https://github.com/GNS-Foundation) — the *spine* (SIM-B1). Synthetic underwriting agents
 make judgment decisions; those decisions and their eventual outcomes are posted to Grafomem over the
 public API, and **Capability-Grounded Reputation (CGR) moves on the real runtime**. This reproduces
 our prior *offline* validation *live*: honest, capable agents climb; the answer key is checked blind.
@@ -18,7 +18,7 @@ sim (this repo)  ──Decision/Outcome──►  Scorer protocol  ──►  Gr
    ground-truth ledger stays LOCAL, git-ignored, never posted        (CGR/vault/field live only here)
 ```
 
-## What B1 is
+## What SIM-B1 is
 
 The spine only, one domain (**invoice / receivables financing**):
 - a seeded generative ground-truth model (planted agent capability, hidden client pay-probability,
@@ -29,10 +29,10 @@ The spine only, one domain (**invoice / receivables financing**):
 - a bounded, **deterministic** simulated-time episode (~20 agents) that runs the loop end-to-end and
   verifies CGR actually **resolves** the outcomes (posterior moves), not a silent zero-resolve.
 
-Later phases (not here): fraud + Gate-1 τ (B2), KYC/collections/credit-committee HITL (B3),
-auditor/regulator (B4), treasury/capital (B5), console + OSS extraction (B6).
+Later phases (not here): fraud + Gate-1 τ (SIM-B2), KYC/collections/credit-committee HITL (SIM-B3),
+auditor/regulator (SIM-B4), treasury/capital (SIM-B5), console + OSS extraction (SIM-B6).
 
-## Ingestion facts (Grafomem, confirmed in B1 Step-0)
+## Ingestion facts (Grafomem, confirmed in SIM-B1 Step-0)
 
 - **Decision** → `POST /v1/governed/decisions` `{decision:"certify"|"reject", reason, invoice_id,
   context, model_id, agent_handle, verifiability_tag:"judgment"|"rule", agent_tier, agent_key}`.

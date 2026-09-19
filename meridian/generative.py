@@ -1,4 +1,4 @@
-"""Meridian ground-truth generative model — B1, one domain (invoice / receivables financing).
+"""Meridian ground-truth generative model — SIM-B1, one domain (invoice / receivables financing).
 
 Seeded (NumPy) ⇒ fully reproducible. Produces:
   * PUBLIC entities (ClientPublic, InvoiceObservable) — safe to post;

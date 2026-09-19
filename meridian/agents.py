@@ -25,7 +25,7 @@ from meridian.entities import AgentPublic, Decision, InvoiceObservable
 
 def _deterministic_ed25519(seed: int, index: int) -> tuple[ed25519.Ed25519PrivateKey, str]:
     """A reproducible Ed25519 keypair from (seed, index) — so the same episode mints the same
-    agent identities. (B1 keys are free/local; B2 will model the cost of a *calibrated* identity.)"""
+    agent identities. (SIM-B1 keys are free/local; SIM-B2 will model the cost of a *calibrated* identity.)"""
     priv_bytes = hashlib.blake2b(f"meridian.agent.v1:{seed}:{index}".encode(), digest_size=32).digest()
     priv = ed25519.Ed25519PrivateKey.from_private_bytes(priv_bytes)
     pub_hex = priv.public_key().public_bytes(
@@ -81,7 +81,7 @@ class SyntheticAgent:
 def mint_agents(seed: int, n_agents: int = 20, *, n_fraud: int = 0,
                 bustout: int = 0) -> list[SyntheticAgent]:
     """Deterministically mint `n_agents` with a spread of hidden capability. The LAST `n_fraud`
-    are the collusive ring and the `bustout` before those are bust-out actors (B2a). Fraud must be a
+    are the collusive ring and the `bustout` before those are bust-out actors (SIM-B2a). Fraud must be a
     minority; their identities/keys are indistinguishable from honest agents on the wire — the `kind`
     label is hidden ground truth, never posted."""
     assert n_fraud + bustout < n_agents, "fraud actors must be a minority"

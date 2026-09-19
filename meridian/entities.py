@@ -18,7 +18,7 @@ from typing import Literal
 from faker import Faker
 from pydantic import BaseModel, Field
 
-# One domain in B1: invoice / receivables financing.
+# One domain in SIM-B1: invoice / receivables financing.
 Sector = Literal["logistics", "manufacturing", "wholesale", "agritech", "energy", "construction"]
 Currency = Literal["USD", "EUR", "GBP"]
 DecisionValue = Literal["certify", "reject"]           # certify = advance, reject = decline
