@@ -1,0 +1,48 @@
+{
+  "id": "mav-003-paid-twice",
+  "kind": "assumed",
+  "polarity": "positive",
+  "assumptions": [
+    "A-03"
+  ],
+  "covers": [
+    "BANK-003-32",
+    "BANK-003-31",
+    "BANK-001-13",
+    "BANK-003-33"
+  ],
+  "title": "same notice paid twice: second payment is a duplicate",
+  "input": {
+    "mav": {
+      "mav_id": "90001000000042616",
+      "amount_cents": 8800,
+      "issued_on": "2026-01-05",
+      "creditor_account_id": "ACC-MAIN",
+      "due_date": "2026-01-31",
+      "payments": [
+        {
+          "paid_on": "2026-01-20",
+          "amount_cents": 8800
+        },
+        {
+          "paid_on": "2026-01-27",
+          "amount_cents": 8800
+        }
+      ]
+    }
+  },
+  "expected": {
+    "verdict": "accept",
+    "answer_key": [
+      {
+        "mav_id": "90001000000042616",
+        "state": "paid",
+        "duplicate_payment_ids": [
+          "PAY-2"
+        ],
+        "match_class": "duplicate"
+      }
+    ]
+  },
+  "notes": ""
+}

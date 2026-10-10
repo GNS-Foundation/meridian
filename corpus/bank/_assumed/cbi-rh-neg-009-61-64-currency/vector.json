@@ -1,0 +1,25 @@
+{
+  "id": "cbi-rh-neg-009-61-64-currency",
+  "kind": "assumed",
+  "polarity": "negative",
+  "assumptions": [
+    "A-01"
+  ],
+  "covers": [
+    "BANK-005-22",
+    "BANK-004-23",
+    "BANK-005-20",
+    "BANK-004-13",
+    "BANK-004-19"
+  ],
+  "title": "record 64 currency USD while 61 has EUR",
+  "input": {
+    "derived_from": "cbi-rh-002-sct-in-48-full-63-chain",
+    "mutation": "record 64 currency USD while 61 has EUR"
+  },
+  "expected": {
+    "verdict": "reject",
+    "rule_id": "CBI-RH-61-64-CCY"
+  },
+  "notes": ""
+}

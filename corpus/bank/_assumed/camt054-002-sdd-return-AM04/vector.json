@@ -1,0 +1,24 @@
+{
+  "id": "camt054-002-sdd-return-AM04",
+  "kind": "assumed",
+  "polarity": "positive",
+  "assumptions": [
+    "A-06"
+  ],
+  "covers": [
+    "BANK-004-43",
+    "BANK-003-13",
+    "BANK-004-41"
+  ],
+  "title": "camt.054 entry for an SDD return (debit on the creditor) with RtrInf/Rsn/Cd=AM04 and MndtId (same facts as sdd-002)",
+  "input": {
+    "same_as": "sdd-002-return-AM04"
+  },
+  "expected": {
+    "verdict": "accept",
+    "artefacts": {
+      "camt054.xml": "1 Ntry DBIT with RtrInf"
+    }
+  },
+  "notes": "RtrInf path for .001.08 to be confirmed against the ISO schema (BANK-004-43)."
+}

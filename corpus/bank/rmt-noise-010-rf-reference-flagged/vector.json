@@ -1,0 +1,27 @@
+{
+  "id": "rmt-noise-010-rf-reference-flagged",
+  "kind": "positive",
+  "polarity": "positive",
+  "assumptions": [],
+  "covers": [
+    "BANK-003-04",
+    "BANK-003-05"
+  ],
+  "title": "RF creditor-reference-shaped string placed inside Ustrd and flagged in the answer key (structured Strd out of scope v1)",
+  "input": {
+    "remittance_clean": "RF18539007547034 CUST 00045",
+    "noise_ops": []
+  },
+  "expected": {
+    "verdict": "accept",
+    "remittance_emitted": "RF18539007547034 CUST 00045",
+    "answer_key": [
+      {
+        "remittance_emitted": "RF18539007547034 CUST 00045",
+        "rf_reference_shaped": true,
+        "structured_remittance": false
+      }
+    ]
+  },
+  "notes": "RF18539007547034 is a shape example only; ISO 11649 validity is not asserted (BANK-003-04 out of scope)."
+}

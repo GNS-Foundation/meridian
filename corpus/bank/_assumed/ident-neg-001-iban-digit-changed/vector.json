@@ -1,0 +1,23 @@
+{
+  "id": "ident-neg-001-iban-digit-changed",
+  "kind": "assumed",
+  "polarity": "negative",
+  "assumptions": [
+    "A-09"
+  ],
+  "covers": [
+    "BANK-005-23",
+    "BANK-001-05",
+    "BANK-005-20"
+  ],
+  "title": "one account digit changed: mod-97 fails",
+  "input": {
+    "iban": "IT41K9910112345000009123456",
+    "derived_from": "IT41K9910112345000000123456"
+  },
+  "expected": {
+    "verdict": "reject",
+    "rule_id": "IBAN-MOD97"
+  },
+  "notes": ""
+}

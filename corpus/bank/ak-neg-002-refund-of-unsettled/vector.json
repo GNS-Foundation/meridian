@@ -1,0 +1,27 @@
+{
+  "id": "ak-neg-002-refund-of-unsettled",
+  "kind": "negative",
+  "polarity": "negative",
+  "assumptions": [],
+  "covers": [
+    "BANK-005-25",
+    "BANK-001-18"
+  ],
+  "title": "refund whose original collection is 'presented', not 'settled'",
+  "input": {
+    "collection": {
+      "collection_id": "COLL-9",
+      "state": "presented"
+    },
+    "r_transaction": {
+      "kind": "refund",
+      "reason_code": "MD06",
+      "date": "2026-03-01"
+    }
+  },
+  "expected": {
+    "verdict": "reject",
+    "rule_id": "AK-REFUND-UNSETTLED"
+  },
+  "notes": ""
+}

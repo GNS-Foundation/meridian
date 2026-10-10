@@ -1,0 +1,24 @@
+{
+  "id": "cbi-rh-neg-006-ri2-without-ri1",
+  "kind": "assumed",
+  "polarity": "negative",
+  "assumptions": [
+    "A-01"
+  ],
+  "covers": [
+    "BANK-005-22",
+    "BANK-004-23",
+    "BANK-005-20",
+    "BANK-004-17"
+  ],
+  "title": "RI2 present, RI1 removed",
+  "input": {
+    "derived_from": "cbi-rh-002-sct-in-48-full-63-chain",
+    "mutation": "RI2 present, RI1 removed"
+  },
+  "expected": {
+    "verdict": "reject",
+    "rule_id": "CBI-RH-63-SEQ"
+  },
+  "notes": ""
+}

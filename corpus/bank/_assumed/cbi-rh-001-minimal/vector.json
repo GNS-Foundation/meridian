@@ -1,0 +1,34 @@
+{
+  "id": "cbi-rh-001-minimal",
+  "kind": "assumed",
+  "polarity": "positive",
+  "assumptions": [
+    "A-01"
+  ],
+  "covers": [
+    "BANK-004-10",
+    "BANK-004-11",
+    "BANK-004-12",
+    "BANK-004-13",
+    "BANK-004-19",
+    "BANK-004-21",
+    "BANK-001-07",
+    "BANK-004-03"
+  ],
+  "title": "RH flow, one account, no movements: RH + 61 + 64 + EF (a day without movements still yields 61+64)",
+  "input": {
+    "account": "ACC-MAIN",
+    "iban": "IT41K9910112345000000123456",
+    "book_date": "2026-01-05",
+    "opening_cents": 100000,
+    "movements": []
+  },
+  "expected": {
+    "verdict": "accept",
+    "artefacts": {
+      "RH.txt": "4 records x 120 chars, CRLF"
+    },
+    "answer_key": []
+  },
+  "notes": "EF pos 46-52 = 1 rendicontazione; pos 83-89 = 4 records incl. RH/EF."
+}

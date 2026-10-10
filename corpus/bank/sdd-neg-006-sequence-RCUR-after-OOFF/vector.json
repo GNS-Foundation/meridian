@@ -1,0 +1,38 @@
+{
+  "id": "sdd-neg-006-sequence-RCUR-after-OOFF",
+  "kind": "negative",
+  "polarity": "negative",
+  "assumptions": [],
+  "covers": [
+    "BANK-005-24",
+    "BANK-005-20",
+    "BANK-003-10"
+  ],
+  "title": "RCUR collection on a mandate whose previous collection was OOFF -> AG02 expected, not settle",
+  "input": {
+    "collection": {
+      "collection_id": "COLL-0001",
+      "mandate_id": "UMR-CORPUS-0001",
+      "sequence_type": "RCUR",
+      "amount_cents": 4500,
+      "requested_collection_date": "2026-02-10",
+      "settlement_date": "2026-02-10",
+      "debtor": "Clelia Marmorosa",
+      "debtor_iban": "IT02G9920254321000000777002",
+      "creditor": "Nebbialunga Servizi Finti S.r.l.",
+      "creditor_iban": "IT41K9910112345000000123456",
+      "end_to_end_id": "E2E-SDD-0001"
+    },
+    "r_transaction": {
+      "kind": "sdd_collect",
+      "sequence_type": "RCUR",
+      "previous_sequence_type": "OOFF",
+      "date": "2026-02-10"
+    }
+  },
+  "expected": {
+    "verdict": "reject",
+    "rule_id": "SDD-SEQ-AG02"
+  },
+  "notes": ""
+}

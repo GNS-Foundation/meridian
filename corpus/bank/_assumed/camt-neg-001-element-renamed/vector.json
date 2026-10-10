@@ -1,0 +1,23 @@
+{
+  "id": "camt-neg-001-element-renamed",
+  "kind": "assumed",
+  "polarity": "negative",
+  "assumptions": [
+    "A-06"
+  ],
+  "covers": [
+    "BANK-005-26",
+    "BANK-004-44",
+    "BANK-005-20"
+  ],
+  "title": "camt.053 with <Ntry> renamed to <Entry>: must fail XSD validation",
+  "input": {
+    "derived_from": "camt053-001-sct-in"
+  },
+  "expected": {
+    "verdict": "reject",
+    "rule_id": "XML-XSD",
+    "skip_if": "XSD unavailable (D-02): skipped, not passed"
+  },
+  "notes": ""
+}

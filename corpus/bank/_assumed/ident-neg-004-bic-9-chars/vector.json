@@ -1,0 +1,21 @@
+{
+  "id": "ident-neg-004-bic-9-chars",
+  "kind": "assumed",
+  "polarity": "negative",
+  "assumptions": [
+    "A-08"
+  ],
+  "covers": [
+    "BANK-005-23",
+    "BANK-001-03"
+  ],
+  "title": "BIC of 9 chars",
+  "input": {
+    "bic": "FNTAITMMX"
+  },
+  "expected": {
+    "verdict": "reject",
+    "rule_id": "BIC-LEN"
+  },
+  "notes": ""
+}

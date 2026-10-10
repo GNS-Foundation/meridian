@@ -1,0 +1,39 @@
+{
+  "id": "cbi-rh-004-cheque-13",
+  "kind": "assumed",
+  "polarity": "positive",
+  "assumptions": [
+    "A-01"
+  ],
+  "covers": [
+    "BANK-004-14",
+    "BANK-004-22"
+  ],
+  "title": "Cheque debit (causale 13) with the mandatory 16-char cheque number at pos 46-61",
+  "input": {
+    "account": "ACC-MAIN",
+    "opening_cents": 100000,
+    "intents": [
+      {
+        "kind": "fee",
+        "instrument": "cheque",
+        "amount_cents": 20000
+      }
+    ]
+  },
+  "expected": {
+    "verdict": "accept",
+    "artefacts": {
+      "RH.txt": "5 records"
+    },
+    "answer_key": [
+      {
+        "movement_id": "MOV-0004-0001",
+        "intent_id": "INT-0004-0001",
+        "kind": "fee",
+        "match_class": "one_to_one"
+      }
+    ]
+  },
+  "notes": ""
+}

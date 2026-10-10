@@ -1,0 +1,57 @@
+{
+  "id": "bank-001-entities",
+  "kind": "assumed",
+  "polarity": "positive",
+  "assumptions": [
+    "A-08"
+  ],
+  "covers": [
+    "BANK-001-01",
+    "BANK-001-02",
+    "BANK-001-03",
+    "BANK-001-15",
+    "BANK-001-06"
+  ],
+  "title": "Two synthetic banks with branches, three accounts each with exactly one holder; names from the curated list; ABI in 99000-99999",
+  "input": {
+    "source": "data/synthetic_banks.json",
+    "holders": [
+      {
+        "holder_id": "HLD-ORG",
+        "kind": "organisation",
+        "display_name": "Nebbialunga Servizi Finti S.r.l.",
+        "fiscal_code_like": "99999999990"
+      },
+      {
+        "holder_id": "HLD-PAYER",
+        "kind": "person",
+        "display_name": "Fabrizia Ventoscuro",
+        "fiscal_code_like": "FBRZVNT99Z99Z999Z"
+      },
+      {
+        "holder_id": "HLD-OTTAVIO",
+        "kind": "person",
+        "display_name": "Ottavio Pietranera",
+        "fiscal_code_like": "PTRTTV99Z99Z999Z"
+      }
+    ]
+  },
+  "expected": {
+    "verdict": "accept",
+    "accounts_per_holder": 1,
+    "abi_in_range": true,
+    "branches": [
+      {
+        "abi": "99101",
+        "cab": "12345",
+        "label": "Roccaluna"
+      },
+      {
+        "abi": "99202",
+        "cab": "54321",
+        "label": "Lagobianco"
+      }
+    ]
+  },
+  "notes": "fiscal_code_like values are deliberately checksum-invalid placeholders (D-11)."
+}

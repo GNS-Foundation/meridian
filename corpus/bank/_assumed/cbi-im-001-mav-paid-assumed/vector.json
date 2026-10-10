@@ -1,0 +1,31 @@
+{
+  "id": "cbi-im-001-mav-paid-assumed",
+  "kind": "assumed",
+  "polarity": "positive",
+  "assumptions": [
+    "A-02",
+    "A-03",
+    "A-01"
+  ],
+  "covers": [
+    "BANK-004-30",
+    "BANK-004-31",
+    "BANK-004-32",
+    "BANK-003-31"
+  ],
+  "title": "CBI IM outcome for a paid MAV — ENTIRE LAYOUT ASSUMED (A-02): structure borrowed from CBI-RIB-001 return flow; field positions are placeholders",
+  "input": {
+    "mav_id": "90001000000042616",
+    "amount_cents": 8800,
+    "paid_on": "2026-01-20",
+    "paying_channel": "online"
+  },
+  "expected": {
+    "verdict": "accept-if-flag",
+    "requires": "--allow-assumed-layouts",
+    "artefacts": {
+      "IM.txt": "9 records x 120"
+    }
+  },
+  "notes": "Only the 120-char length and IM/EF header-trailer are grounded (S3, S2). Everything else must be re-derived from CBI-MAV-001."
+}

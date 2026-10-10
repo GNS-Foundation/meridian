@@ -1,0 +1,20 @@
+{
+  "id": "rmt-neg-001-ustrd-141",
+  "kind": "negative",
+  "polarity": "negative",
+  "assumptions": [],
+  "covers": [
+    "BANK-005-24",
+    "BANK-003-03",
+    "BANK-005-20"
+  ],
+  "title": "remittance of 141 chars",
+  "input": {
+    "remittance_emitted": "REF 2026-000123 DOC 7781 CUST 00045 SALDO DOCUMENTO SETTEMBRE E ACCONTO OTTOBRE RIF CLIENTE 00045 GRAZIE PER IL PAGAMENTO PUNTUALE OK-CORPUSX"
+  },
+  "expected": {
+    "verdict": "reject",
+    "rule_id": "SEPA-RMT-140"
+  },
+  "notes": ""
+}

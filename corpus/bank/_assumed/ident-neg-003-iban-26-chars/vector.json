@@ -1,0 +1,21 @@
+{
+  "id": "ident-neg-003-iban-26-chars",
+  "kind": "assumed",
+  "polarity": "negative",
+  "assumptions": [
+    "A-09"
+  ],
+  "covers": [
+    "BANK-005-23",
+    "BANK-001-05"
+  ],
+  "title": "26-char IBAN (one char dropped)",
+  "input": {
+    "iban": "IT41K991011234500000012345"
+  },
+  "expected": {
+    "verdict": "reject",
+    "rule_id": "IBAN-LEN-IT-27"
+  },
+  "notes": ""
+}

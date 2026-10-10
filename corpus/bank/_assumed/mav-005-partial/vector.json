@@ -1,0 +1,40 @@
+{
+  "id": "mav-005-partial",
+  "kind": "assumed",
+  "polarity": "positive",
+  "assumptions": [
+    "A-03",
+    "A-02"
+  ],
+  "covers": [
+    "BANK-003-32",
+    "BANK-003-31",
+    "BANK-001-13",
+    "BANK-003-33"
+  ],
+  "title": "paid 5000 of 8800: flagged unsupported unless the assumed IM layout permits partials",
+  "input": {
+    "mav": {
+      "mav_id": "90001000000042616",
+      "amount_cents": 8800,
+      "issued_on": "2026-01-05",
+      "creditor_account_id": "ACC-MAIN",
+      "due_date": "2026-01-31",
+      "paid_on": "2026-01-20",
+      "paid_amount_cents": 5000
+    }
+  },
+  "expected": {
+    "verdict": "accept",
+    "answer_key": [
+      {
+        "mav_id": "90001000000042616",
+        "state": "paid",
+        "partial": true,
+        "supported": "unknown (A-02)",
+        "match_class": "partial"
+      }
+    ]
+  },
+  "notes": ""
+}

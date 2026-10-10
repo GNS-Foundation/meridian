@@ -1,0 +1,22 @@
+{
+  "id": "camt054-001-credit-notification",
+  "kind": "assumed",
+  "polarity": "positive",
+  "assumptions": [
+    "A-06"
+  ],
+  "covers": [
+    "BANK-004-42"
+  ],
+  "title": "camt.054.001.08 credit notification for the same inbound SCT (no balances)",
+  "input": {
+    "same_as": "camt053-001-sct-in"
+  },
+  "expected": {
+    "verdict": "accept",
+    "artefacts": {
+      "camt054.xml": "1 Ntfctn, 1 Ntry"
+    }
+  },
+  "notes": ""
+}

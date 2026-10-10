@@ -1,0 +1,38 @@
+{
+  "id": "mav-001-paid-on-time",
+  "kind": "assumed",
+  "polarity": "positive",
+  "assumptions": [
+    "A-03"
+  ],
+  "covers": [
+    "BANK-003-32",
+    "BANK-003-31",
+    "BANK-001-13",
+    "BANK-003-33"
+  ],
+  "title": "MAV issued 2026-01-05 due 2026-01-31, paid 2026-01-20 in full",
+  "input": {
+    "mav": {
+      "mav_id": "90001000000042616",
+      "amount_cents": 8800,
+      "issued_on": "2026-01-05",
+      "creditor_account_id": "ACC-MAIN",
+      "due_date": "2026-01-31",
+      "paid_on": "2026-01-20",
+      "paid_amount_cents": 8800,
+      "paying_channel": "online"
+    }
+  },
+  "expected": {
+    "verdict": "accept",
+    "answer_key": [
+      {
+        "mav_id": "90001000000042616",
+        "state": "paid",
+        "match_class": "one_to_one"
+      }
+    ]
+  },
+  "notes": ""
+}

@@ -1,0 +1,9 @@
+ IM99101A1B2C050126CORPUS-IM-0001                                                                                       
+ 140000001            200126300100000000008800-E                                                                        
+ 200000001NEBBIALUNGA SERVIZI FINTI S.R.L.                                                                              
+ 300000001CLELIA MARMOROSA                                                                                              
+ 400000001VIA DEI PINI FINTI 12 ROCCALUNA                                                                               
+ 500000001MAV 90001000000042616 PAGATO ONLINE 20/01/2026                                                                
+ 51000000190001000000042616                                                                                             
+ 700000001                                                                                                              
+ EF99101A1B2C050126CORPUS-IM-0001            0000001                              0000009                               

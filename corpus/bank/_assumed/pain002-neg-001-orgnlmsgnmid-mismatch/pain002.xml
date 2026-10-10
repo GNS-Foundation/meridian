@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Document xmlns="urn:iso:std:iso:20022:tech:xsd:pain.002.001.10">
+  <CstmrPmtStsRpt>
+    <GrpHdr><MsgId>corpus-pain002-0001</MsgId><CreDtTm>2026-02-09T12:00:00Z</CreDtTm><InitgPty><Nm>Banca Finta del Corpus</Nm></InitgPty></GrpHdr>
+    <OrgnlGrpInfAndSts><OrgnlMsgId>corpus-pain008-0001</OrgnlMsgId><OrgnlMsgNmId>pain.008.001.02</OrgnlMsgNmId></OrgnlGrpInfAndSts>
+    <OrgnlPmtInfAndSts>
+      <OrgnlPmtInfId>corpus-pmtinf-0001</OrgnlPmtInfId>
+      <TxInfAndSts>
+        <StsId>corpus-sts-0001</StsId><OrgnlEndToEndId>E2E-SDD-0001</OrgnlEndToEndId><TxSts>RJCT</TxSts>
+        <StsRsnInf><Rsn><Cd>AC04</Cd></Rsn></StsRsnInf>
+        <OrgnlTxRef><Amt><InstdAmt Ccy="EUR">45.00</InstdAmt></Amt><MndtRltdInf><MndtId>UMR-CORPUS-0001</MndtId></MndtRltdInf><DbtrAcct><Id><IBAN>IT02G9920254321000000777002</IBAN></Id></DbtrAcct></OrgnlTxRef>
+      </TxInfAndSts>
+    </OrgnlPmtInfAndSts>
+  </CstmrPmtStsRpt>
+</Document>

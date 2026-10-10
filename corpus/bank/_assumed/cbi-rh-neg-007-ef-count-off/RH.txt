@@ -1,0 +1,10 @@
+ RH99101A1B2C050126CORPUS-RH-0002                                                                                       
+ 610000001                  93001                  K9910112345000000123456EUR050126C000000000100000IT41                 
+ 620000001001050126050126C00000000001234548                  CRO2600000000001                                           
+ 630000001001YYY05012026FBRZVNT99Z99Z999FABRIZIA VENTOSCURO                     ROCCALUNA                               
+ 630000001001YY2VIA DEI PINI FINTI 12                             IT25F9920254321000000777001                           
+ 630000001001ID1                                   E2E-CORPUS-0002-0001                                                 
+ 630000001001RI1REF 2026-000123 DOC 7781 CUST 00045 SALDO DOCUMENTO SETTEMBRE E ACCONTO OTTOBRE RIF CLIENTE 00045 GRAZIE
+ 630000001001RI2 PER IL PAGAMENTO PUNTUALE OK-CORPUS                                                                    
+ 640000001EUR050126C000000000112345                                                                                     
+ EF99101A1B2C050126CORPUS-RH-0002            0000001                              0000011                               

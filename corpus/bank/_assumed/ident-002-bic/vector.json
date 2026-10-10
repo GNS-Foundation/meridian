@@ -1,0 +1,23 @@
+{
+  "id": "ident-002-bic",
+  "kind": "assumed",
+  "polarity": "positive",
+  "assumptions": [
+    "A-08"
+  ],
+  "covers": [
+    "BANK-001-03"
+  ],
+  "title": "BIC8 and BIC11 with fictional institution codes",
+  "input": {
+    "bics": [
+      "FNTAITMM",
+      "FNTAITMMXXX",
+      "CFLBIT2TXXX"
+    ]
+  },
+  "expected": {
+    "verdict": "accept"
+  },
+  "notes": ""
+}

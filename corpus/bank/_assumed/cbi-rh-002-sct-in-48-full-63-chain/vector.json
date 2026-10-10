@@ -1,0 +1,72 @@
+{
+  "id": "cbi-rh-002-sct-in-48-full-63-chain",
+  "kind": "assumed",
+  "polarity": "positive",
+  "assumptions": [
+    "A-01",
+    "A-10"
+  ],
+  "covers": [
+    "BANK-004-14",
+    "BANK-004-15",
+    "BANK-004-16",
+    "BANK-004-17",
+    "BANK-003-06",
+    "BANK-003-01",
+    "BANK-003-02",
+    "BANK-003-03",
+    "BANK-002-16",
+    "BANK-002-19",
+    "BANK-001-08",
+    "BANK-001-09",
+    "BANK-001-16",
+    "BANK-001-14"
+  ],
+  "title": "Inbound SCT (causale 48) with the full record-63 chain YYY, YY2, ID1, RI1, RI2; 140-char remittance split 104+36",
+  "input": {
+    "account": "ACC-MAIN",
+    "opening_cents": 100000,
+    "intents": [
+      {
+        "kind": "sct_in",
+        "amount_cents": 12345,
+        "payer": "Fabrizia Ventoscuro",
+        "payer_iban": "IT25F9920254321000000777001",
+        "remittance": "REF 2026-000123 DOC 7781 CUST 00045 SALDO DOCUMENTO SETTEMBRE E ACCONTO OTTOBRE RIF CLIENTE 00045 GRAZIE PER IL PAGAMENTO PUNTUALE OK-CORPUS",
+        "end_to_end_id": "E2E-CORPUS-0002-0001"
+      }
+    ]
+  },
+  "expected": {
+    "verdict": "accept",
+    "artefacts": {
+      "RH.txt": "10 records"
+    },
+    "answer_key": [
+      {
+        "movement_id": "MOV-0002-0001",
+        "intent_id": "INT-0002-0001",
+        "scenario_id": "corpus",
+        "kind": "sct_in",
+        "expected_outcome": "settle",
+        "remittance_clean": "REF 2026-000123 DOC 7781 CUST 00045 SALDO DOCUMENTO SETTEMBRE E ACCONTO OTTOBRE RIF CLIENTE 00045 GRAZIE PER IL PAGAMENTO PUNTUALE OK-CORPUS",
+        "remittance_emitted": "REF 2026-000123 DOC 7781 CUST 00045 SALDO DOCUMENTO SETTEMBRE E ACCONTO OTTOBRE RIF CLIENTE 00045 GRAZIE PER IL PAGAMENTO PUNTUALE OK-CORPUS",
+        "noise_ops": [],
+        "counterparty_name_clean": "Fabrizia Ventoscuro",
+        "counterparty_name_emitted": "FABRIZIA VENTOSCURO",
+        "name_noise_ops": [
+          "upper()"
+        ],
+        "intended_holder_id": "HLD-PAYER",
+        "match_class": "one_to_one",
+        "end_to_end_id": "E2E-CORPUS-0002-0001",
+        "links": {
+          "REF": "2026-000123",
+          "DOC": "7781",
+          "CUST": "00045"
+        }
+      }
+    ]
+  },
+  "notes": "63 count = 5 (max). RI1 carries chars 1-104 of the remittance at pos 17-120; RI2 chars 105-140 at pos 17-52."
+}

@@ -1,0 +1,23 @@
+{
+  "id": "name-neg-001-not-curated",
+  "kind": "negative",
+  "polarity": "negative",
+  "assumptions": [],
+  "covers": [
+    "BANK-005-27",
+    "BANK-003-08",
+    "BANK-005-20",
+    "BANK-001-06",
+    "BANK-005-31"
+  ],
+  "title": "emitted name with a token outside the curated list",
+  "input": {
+    "counterparty_name_emitted": "Fabrizia Rossi",
+    "curated_list": "data/fictional_names.json"
+  },
+  "expected": {
+    "verdict": "reject",
+    "rule_id": "NAME-NOT-CURATED"
+  },
+  "notes": ""
+}

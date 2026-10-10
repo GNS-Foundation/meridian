@@ -1,0 +1,35 @@
+{
+  "id": "name-noise-003-truncate_to_yyy_width",
+  "kind": "positive",
+  "polarity": "positive",
+  "assumptions": [],
+  "covers": [
+    "BANK-003-08",
+    "BANK-001-06",
+    "BANK-002-16"
+  ],
+  "title": "counterparty-name operator truncate_to_yyy_width()",
+  "input": {
+    "counterparty_name_clean": "Maria Annunziata Ersilia Fiumedoro-Pietranera",
+    "name_noise_ops": [
+      "truncate_to_yyy_width()"
+    ],
+    "intended_holder_id": "HLD-PAYER"
+  },
+  "expected": {
+    "verdict": "accept",
+    "counterparty_name_emitted": "Maria Annunziata Ersilia Fiumedoro-Pietr",
+    "answer_key": [
+      {
+        "counterparty_name_clean": "Maria Annunziata Ersilia Fiumedoro-Pietranera",
+        "counterparty_name_emitted": "Maria Annunziata Ersilia Fiumedoro-Pietr",
+        "name_noise_ops": [
+          "truncate_to_yyy_width()"
+        ],
+        "intended_holder_id": "HLD-PAYER",
+        "match_class": "one_to_one"
+      }
+    ]
+  },
+  "notes": ""
+}

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Document xmlns="urn:iso:std:iso:20022:tech:xsd:camt.054.001.08">
+  <BkToCstmrDbtCdtNtfctn>
+    <GrpHdr><MsgId>corpus-camt054-0001</MsgId><CreDtTm>2026-01-05T18:00:00Z</CreDtTm></GrpHdr>
+    <Ntfctn>
+      <Id>corpus-ntfctn-ACC-MAIN-20260105</Id><ElctrncSeqNb>1</ElctrncSeqNb><CreDtTm>2026-01-05T18:00:00Z</CreDtTm>
+      <Acct><Id><IBAN>IT41K9910112345000000123456</IBAN></Id><Ccy>EUR</Ccy></Acct>
+      <Ntry>
+        <Amt Ccy="EUR">123.45</Amt><CdtDbtInd>CRDT</CdtDbtInd><Sts><Cd>BOOK</Cd></Sts>
+        <BookgDt><Dt>2026-01-05</Dt></BookgDt><ValDt><Dt>2026-01-05</Dt></ValDt>
+        <AcctSvcrRef>CRO2600000000001</AcctSvcrRef>
+        <BkTxCd><Domn><Cd>PMNT</Cd><Fmly><Cd>RCDT</Cd><SubFmlyCd>ESCT</SubFmlyCd></Fmly></Domn></BkTxCd>
+        <NtryDtls><TxDtls>
+          <Refs><EndToEndId>E2E-CORPUS-0002-0001</EndToEndId></Refs>
+          <RltdPties><Dbtr><Pty><Nm>FABRIZIA VENTOSCURO</Nm></Pty></Dbtr><DbtrAcct><Id><IBAN>IT25F9920254321000000777001</IBAN></Id></DbtrAcct></RltdPties>
+          <RmtInf><Ustrd>REF 2026-000123 DOC 7781 CUST 00045 SALDO DOCUMENTO SETTEMBRE E ACCONTO OTTOBRE RIF CLIENTE 00045 GRAZIE PER IL PAGAMENTO PUNTUALE OK-CORPUS</Ustrd></RmtInf>
+        </TxDtls></NtryDtls>
+      </Ntry>
+    </Ntfctn>
+  </BkToCstmrDbtCdtNtfctn>
+</Document>

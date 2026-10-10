@@ -1,0 +1,26 @@
+{
+  "id": "name-neg-002-third-party-same-holder",
+  "kind": "negative",
+  "polarity": "negative",
+  "assumptions": [],
+  "covers": [
+    "BANK-005-27",
+    "BANK-003-08",
+    "BANK-005-20"
+  ],
+  "title": "third_party_payer applied but intended_holder_id equals the payer's holder",
+  "input": {
+    "answer_key_row": {
+      "intended_holder_id": "HLD-OTTAVIO",
+      "payer_holder_id": "HLD-OTTAVIO",
+      "name_noise_ops": [
+        "third_party_payer()"
+      ]
+    }
+  },
+  "expected": {
+    "verdict": "reject",
+    "rule_id": "AK-THIRD-PARTY-DISTINCT"
+  },
+  "notes": ""
+}

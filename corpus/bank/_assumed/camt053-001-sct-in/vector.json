@@ -1,0 +1,25 @@
+{
+  "id": "camt053-001-sct-in",
+  "kind": "assumed",
+  "polarity": "positive",
+  "assumptions": [
+    "A-06"
+  ],
+  "covers": [
+    "BANK-004-40",
+    "BANK-004-41",
+    "BANK-001-07",
+    "BANK-003-03"
+  ],
+  "title": "camt.053.001.08 statement: OPBD/CLBD consistent with one inbound SCT entry (same facts as cbi-rh-002)",
+  "input": {
+    "same_as": "cbi-rh-002-sct-in-48-full-63-chain"
+  },
+  "expected": {
+    "verdict": "accept",
+    "artefacts": {
+      "camt053.xml": "1 Stmt, 1 Ntry"
+    }
+  },
+  "notes": "Element names follow ISO 20022 camt.053.001.08 as known to the author; XSD validation (BANK-004-44) is NOT performed by the corpus lint (D-02). BkTxCd PMNT/RCDT/ESCT pending D-15."
+}

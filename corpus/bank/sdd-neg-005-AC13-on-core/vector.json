@@ -1,0 +1,38 @@
+{
+  "id": "sdd-neg-005-AC13-on-core",
+  "kind": "negative",
+  "polarity": "negative",
+  "assumptions": [],
+  "covers": [
+    "BANK-005-24",
+    "BANK-005-20",
+    "BANK-003-12",
+    "BANK-003-19"
+  ],
+  "title": "AC13 (B2B-only) used on an SDD Core collection",
+  "input": {
+    "collection": {
+      "collection_id": "COLL-0001",
+      "mandate_id": "UMR-CORPUS-0001",
+      "sequence_type": "RCUR",
+      "amount_cents": 4500,
+      "requested_collection_date": "2026-02-10",
+      "settlement_date": "2026-02-10",
+      "debtor": "Clelia Marmorosa",
+      "debtor_iban": "IT02G9920254321000000777002",
+      "creditor": "Nebbialunga Servizi Finti S.r.l.",
+      "creditor_iban": "IT41K9910112345000000123456",
+      "end_to_end_id": "E2E-SDD-0001"
+    },
+    "r_transaction": {
+      "kind": "reject",
+      "reason_code": "AC13",
+      "date": "2026-02-09"
+    }
+  },
+  "expected": {
+    "verdict": "reject",
+    "rule_id": "SDD-CODE-SCOPE"
+  },
+  "notes": ""
+}
