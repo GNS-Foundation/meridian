@@ -73,7 +73,7 @@ def violations_of(world: BankWorld, files: list[Path]) -> dict[str, list[str]]:
     movements = [m.model_dump() for m in world.movements]
     mavs = {mid: n.model_dump() for mid, n in world.mav_notices.items()}
     for row in world._answer_rows:
-        add(f"answer-key row {row['movement_id']}", check_answer_key_row(row, collections=collections, movements=movements, mavs=mavs))
+        add(f"answer-key row {row['movement_id']}", check_answer_key_row(row, collections=collections, movements=movements, mavs=mavs, rows=world._answer_rows))
     for p in files:
         text = read_artefact(p)
         fid = p.parent.name if p.parent.name in REGISTRY else p.parent.parent.name
