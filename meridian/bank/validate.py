@@ -49,7 +49,7 @@ RULES: dict[str, str] = {
     # answer key (BANK-005-25/27)
     "AK-NO-INTENT": "every movement links to an intent",
     "AK-REFUND-UNSETTLED": "a refund references a settled collection",
-    "AK-MAV-PAID-NO-CREDIT": "a paid MAV has exactly one credit movement",
+    "AK-MAV-PAID-NO-CREDIT": "a paid MAV has at least one credit movement (duplicates are a legitimate match class)",
     "AK-THIRD-PARTY-DISTINCT": "third_party_payer: payer holder differs from intended holder",
     "AK-NAME-NOISE-REPLAY": "replaying name_noise_ops on the clean name reproduces the emitted name",
     "NOISE-INITIALS-SHAPE": "initials() output is at most surname + 3 chars",
@@ -244,6 +244,6 @@ def check_answer_key_row(row: dict, *, collections: dict[str, dict] | None = Non
     mav = row.get("mav") or ((mavs or {}).get(row.get("mav_id", "")) if mavs else None)
     if mav and mav.get("state") == "paid":
         credits = [m for m in (movements if movements is not None else row.get("movements", [])) if m.get("sign") == "C" and m.get("instrument_ref") == mav.get("mav_id")]
-        if len(credits) != 1:
+        if not credits:                       # BANK-005-25: "no credit movement"; duplicate payments (match_class duplicate) are legitimate
             v.append("AK-MAV-PAID-NO-CREDIT")
     return v
