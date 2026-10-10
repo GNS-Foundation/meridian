@@ -6,6 +6,9 @@
 *.pem
 **/secrets/**
 
+# ─── live-tenant operator scripts — hard-coded credential paths; never committed ──
+scripts/
+
 # ─── ground-truth answer key — STAYS LOCAL, never committed, never posted ──
 ground_truth/
 *.ground_truth.json
