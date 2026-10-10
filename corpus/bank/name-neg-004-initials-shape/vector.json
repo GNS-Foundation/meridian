@@ -1,0 +1,24 @@
+{
+  "id": "name-neg-004-initials-shape",
+  "kind": "negative",
+  "polarity": "negative",
+  "assumptions": [],
+  "covers": [
+    "BANK-005-27",
+    "BANK-003-08",
+    "BANK-005-20"
+  ],
+  "title": "initials() output longer than surname + 3 chars",
+  "input": {
+    "counterparty_name_clean": "Fabrizia Ventoscuro",
+    "name_noise_ops": [
+      "initials()"
+    ],
+    "counterparty_name_emitted": "VENTOSCURO FA."
+  },
+  "expected": {
+    "verdict": "reject",
+    "rule_id": "NOISE-INITIALS-SHAPE"
+  },
+  "notes": ""
+}

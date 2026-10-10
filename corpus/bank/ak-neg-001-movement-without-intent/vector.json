@@ -1,0 +1,24 @@
+{
+  "id": "ak-neg-001-movement-without-intent",
+  "kind": "negative",
+  "polarity": "negative",
+  "assumptions": [],
+  "covers": [
+    "BANK-005-25",
+    "BANK-001-16",
+    "BANK-002-16",
+    "BANK-005-20"
+  ],
+  "title": "movement with no intent_id",
+  "input": {
+    "answer_key_row": {
+      "movement_id": "MOV-X",
+      "intent_id": null
+    }
+  },
+  "expected": {
+    "verdict": "reject",
+    "rule_id": "AK-NO-INTENT"
+  },
+  "notes": ""
+}

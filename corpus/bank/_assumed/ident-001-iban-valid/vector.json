@@ -1,0 +1,48 @@
+{
+  "id": "ident-001-iban-valid",
+  "kind": "assumed",
+  "polarity": "positive",
+  "assumptions": [
+    "A-08",
+    "A-09"
+  ],
+  "covers": [
+    "BANK-001-05",
+    "BANK-001-03",
+    "BANK-001-04",
+    "BANK-003-07"
+  ],
+  "title": "Three synthetic Italian IBANs with valid CIN and ISO 7064 check digits",
+  "input": {
+    "abi_cab_conto": [
+      [
+        "99101",
+        "12345",
+        "000000123456"
+      ],
+      [
+        "99202",
+        "54321",
+        "000000777001"
+      ],
+      [
+        "99202",
+        "54321",
+        "000000777002"
+      ]
+    ]
+  },
+  "expected": {
+    "verdict": "accept",
+    "ibans": [
+      "IT41K9910112345000000123456",
+      "IT25F9920254321000000777001",
+      "IT02G9920254321000000777002"
+    ],
+    "s11_worked_example": {
+      "bban": "P0832738941000000172964",
+      "check": "14"
+    }
+  },
+  "notes": ""
+}

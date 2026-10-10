@@ -1,0 +1,36 @@
+{
+  "id": "fee-001-debit",
+  "kind": "assumed",
+  "polarity": "positive",
+  "assumptions": [
+    "A-07"
+  ],
+  "covers": [
+    "BANK-003-40",
+    "BANK-001-16"
+  ],
+  "title": "fee intent produces one debit movement with a configurable causale (A-07) and boilerplate description",
+  "input": {
+    "intent": {
+      "kind": "fee",
+      "amount_cents": 250,
+      "account": "ACC-MAIN",
+      "description": "COMMISSIONI TENUTA CONTO"
+    }
+  },
+  "expected": {
+    "verdict": "accept",
+    "answer_key": [
+      {
+        "movement_id": "MOV-FEE-0001",
+        "intent_id": "INT-FEE-0001",
+        "kind": "fee",
+        "sign": "D",
+        "amount_cents": 250,
+        "cbi_causale": "A-07 placeholder",
+        "match_class": "one_to_one"
+      }
+    ]
+  },
+  "notes": ""
+}

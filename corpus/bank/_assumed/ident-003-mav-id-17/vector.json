@@ -1,0 +1,24 @@
+{
+  "id": "ident-003-mav-id-17",
+  "kind": "assumed",
+  "polarity": "positive",
+  "assumptions": [
+    "A-03"
+  ],
+  "covers": [
+    "BANK-003-30",
+    "BANK-001-13"
+  ],
+  "title": "17-digit MAV identifier, RAV-shaped with placeholder check digits (mod 10 / mod 93)",
+  "input": {
+    "n1": "90001",
+    "n2": "000000042"
+  },
+  "expected": {
+    "verdict": "accept",
+    "mav_id": "90001000000042616",
+    "cin10": "6",
+    "cin93": "16"
+  },
+  "notes": ""
+}

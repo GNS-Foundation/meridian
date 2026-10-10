@@ -1,0 +1,44 @@
+{
+  "_note": "Synthetic ABI range 99000-99999 (BANK-001-03, A-08). BICs are fictional institution codes (A-08).",
+  "banks": [
+    {
+      "bank_id": "BNK-CORPUS-1",
+      "name": "Banca Finta del Corpus",
+      "abi": "99101",
+      "bic": "FNTAITMMXXX",
+      "cab": [
+        "12345"
+      ],
+      "sia_receiver": "A1B2C"
+    },
+    {
+      "bank_id": "BNK-CORPUS-2",
+      "name": "Cassa Finta Lagobianco",
+      "abi": "99202",
+      "bic": "CFLBIT2TXXX",
+      "cab": [
+        "54321"
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "account_id": "ACC-MAIN",
+      "iban": "IT41K9910112345000000123456",
+      "holder": "Nebbialunga Servizi Finti S.r.l.",
+      "kind": "organisation"
+    },
+    {
+      "account_id": "ACC-PAYER",
+      "iban": "IT25F9920254321000000777001",
+      "holder": "Fabrizia Ventoscuro",
+      "kind": "person"
+    },
+    {
+      "account_id": "ACC-PAYER2",
+      "iban": "IT02G9920254321000000777002",
+      "holder": "Ottavio Pietranera",
+      "kind": "person"
+    }
+  ]
+}

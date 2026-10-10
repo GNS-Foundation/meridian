@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Document xmlns="urn:iso:std:iso:20022:tech:xsd:camt.054.001.08">
+  <BkToCstmrDbtCdtNtfctn>
+    <GrpHdr><MsgId>corpus-camt054-0002</MsgId><CreDtTm>2026-02-12T18:00:00Z</CreDtTm></GrpHdr>
+    <Ntfctn>
+      <Id>corpus-ntfctn-ACC-MAIN-20260212</Id><CreDtTm>2026-02-12T18:00:00Z</CreDtTm>
+      <Acct><Id><IBAN>IT41K9910112345000000123456</IBAN></Id><Ccy>EUR</Ccy></Acct>
+      <Ntry>
+        <Amt Ccy="EUR">45.00</Amt><CdtDbtInd>DBIT</CdtDbtInd><Sts><Cd>BOOK</Cd></Sts>
+        <BookgDt><Dt>2026-02-12</Dt></BookgDt><ValDt><Dt>2026-02-12</Dt></ValDt>
+        <BkTxCd><Domn><Cd>PMNT</Cd><Fmly><Cd>IDDT</Cd><SubFmlyCd>RRTN</SubFmlyCd></Fmly></Domn></BkTxCd>
+        <NtryDtls><TxDtls>
+          <Refs><EndToEndId>E2E-SDD-0001</EndToEndId><MndtId>UMR-CORPUS-0001</MndtId></Refs>
+          <RtrInf><OrgnlBkTxCd><Domn><Cd>PMNT</Cd><Fmly><Cd>IDDT</Cd><SubFmlyCd>ESDD</SubFmlyCd></Fmly></Domn></OrgnlBkTxCd><Rsn><Cd>AM04</Cd></Rsn></RtrInf>
+        </TxDtls></NtryDtls>
+      </Ntry>
+    </Ntfctn>
+  </BkToCstmrDbtCdtNtfctn>
+</Document>

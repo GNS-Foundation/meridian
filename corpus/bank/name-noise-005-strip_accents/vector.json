@@ -1,0 +1,35 @@
+{
+  "id": "name-noise-005-strip_accents",
+  "kind": "positive",
+  "polarity": "positive",
+  "assumptions": [],
+  "covers": [
+    "BANK-003-08",
+    "BANK-001-06",
+    "BANK-002-16"
+  ],
+  "title": "counterparty-name operator strip_accents()",
+  "input": {
+    "counterparty_name_clean": "Niccolò Sassoverde",
+    "name_noise_ops": [
+      "strip_accents()"
+    ],
+    "intended_holder_id": "HLD-PAYER"
+  },
+  "expected": {
+    "verdict": "accept",
+    "counterparty_name_emitted": "Niccolo Sassoverde",
+    "answer_key": [
+      {
+        "counterparty_name_clean": "Niccolò Sassoverde",
+        "counterparty_name_emitted": "Niccolo Sassoverde",
+        "name_noise_ops": [
+          "strip_accents()"
+        ],
+        "intended_holder_id": "HLD-PAYER",
+        "match_class": "one_to_one"
+      }
+    ]
+  },
+  "notes": ""
+}

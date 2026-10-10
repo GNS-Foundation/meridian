@@ -1,0 +1,36 @@
+{
+  "id": "mav-004-expired-unpaid",
+  "kind": "assumed",
+  "polarity": "positive",
+  "assumptions": [
+    "A-03"
+  ],
+  "covers": [
+    "BANK-003-32",
+    "BANK-003-31",
+    "BANK-001-13",
+    "BANK-003-33"
+  ],
+  "title": "never paid; expired after due date",
+  "input": {
+    "mav": {
+      "mav_id": "90001000000042616",
+      "amount_cents": 8800,
+      "issued_on": "2026-01-05",
+      "creditor_account_id": "ACC-MAIN",
+      "due_date": "2026-01-31",
+      "paid_on": null
+    }
+  },
+  "expected": {
+    "verdict": "accept",
+    "answer_key": [
+      {
+        "mav_id": "90001000000042616",
+        "state": "expired",
+        "match_class": "unmatched_noise"
+      }
+    ]
+  },
+  "notes": ""
+}

@@ -1,0 +1,31 @@
+{
+  "id": "rmt-noise-009-composed",
+  "kind": "positive",
+  "polarity": "positive",
+  "assumptions": [],
+  "covers": [
+    "BANK-003-05"
+  ],
+  "title": "two operators composed in order: upper() then truncate_to(40)",
+  "input": {
+    "remittance_clean": "REF 2026-000123 DOC 7781 CUST 00045 Pagamento già saldato",
+    "noise_ops": [
+      "upper()",
+      "truncate_to(40)"
+    ]
+  },
+  "expected": {
+    "verdict": "accept",
+    "remittance_emitted": "REF 2026-000123 DOC 7781 CUST 00045 PAGA",
+    "answer_key": [
+      {
+        "noise_ops": [
+          "upper()",
+          "truncate_to(40)"
+        ],
+        "remittance_emitted": "REF 2026-000123 DOC 7781 CUST 00045 PAGA"
+      }
+    ]
+  },
+  "notes": ""
+}

@@ -1,0 +1,45 @@
+{
+  "id": "name-noise-006-third_party_payer",
+  "kind": "positive",
+  "polarity": "positive",
+  "assumptions": [],
+  "covers": [
+    "BANK-003-08",
+    "BANK-002-19",
+    "BANK-001-06"
+  ],
+  "title": "third_party_payer(): payer Ottavio Pietranera pays the bill of Clelia Marmorosa",
+  "input": {
+    "intended_holder": {
+      "holder_id": "HLD-CLELIA",
+      "display_name": "Clelia Marmorosa"
+    },
+    "payer": {
+      "holder_id": "HLD-OTTAVIO",
+      "display_name": "Ottavio Pietranera",
+      "iban": "IT02G9920254321000000777002"
+    },
+    "name_noise_ops": [
+      "third_party_payer()"
+    ]
+  },
+  "expected": {
+    "verdict": "accept",
+    "emitted_counterparty": {
+      "name": "Ottavio Pietranera",
+      "iban": "IT02G9920254321000000777002"
+    },
+    "answer_key": [
+      {
+        "intended_holder_id": "HLD-CLELIA",
+        "payer_holder_id": "HLD-OTTAVIO",
+        "name_noise_ops": [
+          "third_party_payer()"
+        ],
+        "match_class": "one_to_one",
+        "paid_by_third_party": true
+      }
+    ]
+  },
+  "notes": ""
+}

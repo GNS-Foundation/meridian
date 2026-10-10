@@ -1,0 +1,26 @@
+{
+  "id": "name-neg-003-replay-mismatch",
+  "kind": "negative",
+  "polarity": "negative",
+  "assumptions": [],
+  "covers": [
+    "BANK-005-27",
+    "BANK-003-08",
+    "BANK-005-20"
+  ],
+  "title": "operator list does not reproduce the emitted name",
+  "input": {
+    "answer_key_row": {
+      "counterparty_name_clean": "Fabrizia Ventoscuro",
+      "name_noise_ops": [
+        "upper()"
+      ],
+      "counterparty_name_emitted": "VENTOSCURO F."
+    }
+  },
+  "expected": {
+    "verdict": "reject",
+    "rule_id": "AK-NAME-NOISE-REPLAY"
+  },
+  "notes": ""
+}

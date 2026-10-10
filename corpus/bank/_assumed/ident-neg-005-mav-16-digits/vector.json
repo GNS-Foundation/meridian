@@ -1,0 +1,21 @@
+{
+  "id": "ident-neg-005-mav-16-digits",
+  "kind": "assumed",
+  "polarity": "negative",
+  "assumptions": [
+    "A-03"
+  ],
+  "covers": [
+    "BANK-005-23",
+    "BANK-003-30"
+  ],
+  "title": "MAV id of 16 digits",
+  "input": {
+    "mav_id": "9000100000004261"
+  },
+  "expected": {
+    "verdict": "reject",
+    "rule_id": "MAV-ID-LEN"
+  },
+  "notes": ""
+}

@@ -1,0 +1,24 @@
+{
+  "id": "cbi-rh-neg-001-len-119",
+  "kind": "assumed",
+  "polarity": "negative",
+  "assumptions": [
+    "A-01"
+  ],
+  "covers": [
+    "BANK-005-22",
+    "BANK-004-23",
+    "BANK-005-20",
+    "BANK-004-10"
+  ],
+  "title": "record 62 truncated to 119 chars",
+  "input": {
+    "derived_from": "cbi-rh-002-sct-in-48-full-63-chain",
+    "mutation": "record 62 truncated to 119 chars"
+  },
+  "expected": {
+    "verdict": "reject",
+    "rule_id": "CBI-RH-LEN-120"
+  },
+  "notes": ""
+}

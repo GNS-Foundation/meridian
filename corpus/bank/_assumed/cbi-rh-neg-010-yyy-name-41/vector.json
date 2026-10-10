@@ -1,0 +1,25 @@
+{
+  "id": "cbi-rh-neg-010-yyy-name-41",
+  "kind": "assumed",
+  "polarity": "negative",
+  "assumptions": [
+    "A-01"
+  ],
+  "covers": [
+    "BANK-005-22",
+    "BANK-004-23",
+    "BANK-005-20",
+    "BANK-005-27",
+    "BANK-003-08"
+  ],
+  "title": "YYY ordering-party name of 41 chars overflowing pos 41-80 into locality",
+  "input": {
+    "derived_from": "cbi-rh-002-sct-in-48-full-63-chain",
+    "mutation": "YYY ordering-party name of 41 chars overflowing pos 41-80 into locality"
+  },
+  "expected": {
+    "verdict": "reject",
+    "rule_id": "CBI-RH-63-YYY-NAME-40"
+  },
+  "notes": ""
+}

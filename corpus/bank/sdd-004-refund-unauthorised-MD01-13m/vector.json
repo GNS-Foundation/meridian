@@ -1,0 +1,51 @@
+{
+  "id": "sdd-004-refund-unauthorised-MD01-13m",
+  "kind": "positive",
+  "polarity": "positive",
+  "assumptions": [],
+  "covers": [
+    "BANK-003-15",
+    "BANK-003-19"
+  ],
+  "title": "Refund of an unauthorised collection, MD01, dated 13 months after settlement: inside window",
+  "input": {
+    "collection": {
+      "collection_id": "COLL-0001",
+      "mandate_id": "UMR-CORPUS-0001",
+      "sequence_type": "RCUR",
+      "amount_cents": 4500,
+      "requested_collection_date": "2026-02-10",
+      "settlement_date": "2026-02-10",
+      "debtor": "Clelia Marmorosa",
+      "debtor_iban": "IT02G9920254321000000777002",
+      "creditor": "Nebbialunga Servizi Finti S.r.l.",
+      "creditor_iban": "IT41K9910112345000000123456",
+      "end_to_end_id": "E2E-SDD-0001"
+    },
+    "r_transaction": {
+      "kind": "refund",
+      "reason_code": "MD01",
+      "date": "2027-03-10",
+      "initiator": "debtor"
+    }
+  },
+  "expected": {
+    "verdict": "accept",
+    "answer_key": [
+      {
+        "collection_id": "COLL-0001",
+        "r_transaction": {
+          "kind": "refund",
+          "reason_code": "MD01",
+          "date": "2027-03-10",
+          "initiator": "debtor"
+        },
+        "state_after": {
+          "state": "refunded",
+          "expected_outcome": "refund_unauthorised"
+        }
+      }
+    ]
+  },
+  "notes": ""
+}

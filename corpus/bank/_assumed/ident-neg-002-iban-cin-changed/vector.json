@@ -1,0 +1,21 @@
+{
+  "id": "ident-neg-002-iban-cin-changed",
+  "kind": "assumed",
+  "polarity": "negative",
+  "assumptions": [
+    "A-09"
+  ],
+  "covers": [
+    "BANK-005-23",
+    "BANK-001-05"
+  ],
+  "title": "CIN letter changed (mod-97 may or may not fail; CIN check must)",
+  "input": {
+    "iban": "IT41A9910112345000000123456"
+  },
+  "expected": {
+    "verdict": "reject",
+    "rule_id": "IBAN-CIN"
+  },
+  "notes": ""
+}

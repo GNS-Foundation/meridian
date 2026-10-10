@@ -1,0 +1,39 @@
+{
+  "id": "mav-002-paid-late",
+  "kind": "assumed",
+  "polarity": "positive",
+  "assumptions": [
+    "A-03"
+  ],
+  "covers": [
+    "BANK-003-32",
+    "BANK-003-31",
+    "BANK-001-13",
+    "BANK-003-33"
+  ],
+  "title": "paid 2026-02-10 after due date",
+  "input": {
+    "mav": {
+      "mav_id": "90001000000042616",
+      "amount_cents": 8800,
+      "issued_on": "2026-01-05",
+      "creditor_account_id": "ACC-MAIN",
+      "due_date": "2026-01-31",
+      "paid_on": "2026-02-10",
+      "paid_amount_cents": 8800,
+      "paying_channel": "branch"
+    }
+  },
+  "expected": {
+    "verdict": "accept",
+    "answer_key": [
+      {
+        "mav_id": "90001000000042616",
+        "state": "paid",
+        "late": true,
+        "match_class": "one_to_one"
+      }
+    ]
+  },
+  "notes": ""
+}

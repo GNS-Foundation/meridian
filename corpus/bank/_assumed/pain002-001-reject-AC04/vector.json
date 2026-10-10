@@ -1,0 +1,27 @@
+{
+  "id": "pain002-001-reject-AC04",
+  "kind": "assumed",
+  "polarity": "positive",
+  "assumptions": [
+    "A-04"
+  ],
+  "covers": [
+    "BANK-004-50",
+    "BANK-004-51",
+    "BANK-004-52",
+    "BANK-003-12",
+    "BANK-003-21"
+  ],
+  "title": "pain.002.001.10 reject (RJCT, AC04) for collection COLL-0001 (same facts as sdd-001)",
+  "input": {
+    "same_as": "sdd-001-reject-AC04",
+    "folder": "out/<episode>/pain002/<creditor_id>/"
+  },
+  "expected": {
+    "verdict": "accept",
+    "artefacts": {
+      "pain002.xml": "1 TxInfAndSts RJCT"
+    }
+  },
+  "notes": ""
+}

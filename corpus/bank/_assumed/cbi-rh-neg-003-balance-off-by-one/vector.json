@@ -1,0 +1,25 @@
+{
+  "id": "cbi-rh-neg-003-balance-off-by-one",
+  "kind": "assumed",
+  "polarity": "negative",
+  "assumptions": [
+    "A-01"
+  ],
+  "covers": [
+    "BANK-005-22",
+    "BANK-004-23",
+    "BANK-005-20",
+    "BANK-004-19",
+    "BANK-001-07"
+  ],
+  "title": "closing balance 112346 instead of 112345",
+  "input": {
+    "derived_from": "cbi-rh-002-sct-in-48-full-63-chain",
+    "mutation": "closing balance 112346 instead of 112345"
+  },
+  "expected": {
+    "verdict": "reject",
+    "rule_id": "CBI-RH-BAL"
+  },
+  "notes": ""
+}

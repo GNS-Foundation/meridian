@@ -1,0 +1,37 @@
+{
+  "id": "sdd-neg-001-MD06-8w-plus-1d",
+  "kind": "negative",
+  "polarity": "negative",
+  "assumptions": [],
+  "covers": [
+    "BANK-005-24",
+    "BANK-005-20",
+    "BANK-003-14"
+  ],
+  "title": "MD06 refund dated 8 weeks + 1 day (57 days) after settlement",
+  "input": {
+    "collection": {
+      "collection_id": "COLL-0001",
+      "mandate_id": "UMR-CORPUS-0001",
+      "sequence_type": "RCUR",
+      "amount_cents": 4500,
+      "requested_collection_date": "2026-02-10",
+      "settlement_date": "2026-02-10",
+      "debtor": "Clelia Marmorosa",
+      "debtor_iban": "IT02G9920254321000000777002",
+      "creditor": "Nebbialunga Servizi Finti S.r.l.",
+      "creditor_iban": "IT41K9910112345000000123456",
+      "end_to_end_id": "E2E-SDD-0001"
+    },
+    "r_transaction": {
+      "kind": "refund",
+      "reason_code": "MD06",
+      "date": "2026-04-08"
+    }
+  },
+  "expected": {
+    "verdict": "reject",
+    "rule_id": "SDD-REFUND-8W"
+  },
+  "notes": ""
+}

@@ -1,0 +1,43 @@
+{
+  "id": "cbi-rh-003-sct-out-26-id1",
+  "kind": "assumed",
+  "polarity": "positive",
+  "assumptions": [
+    "A-01"
+  ],
+  "covers": [
+    "BANK-004-14",
+    "BANK-004-16",
+    "BANK-004-22",
+    "BANK-003-01",
+    "BANK-003-02"
+  ],
+  "title": "Outbound SCT (causale 26) with NROSUPCBI reference and ID1 message id",
+  "input": {
+    "account": "ACC-MAIN",
+    "opening_cents": 100000,
+    "intents": [
+      {
+        "kind": "sct_out",
+        "amount_cents": 50000,
+        "message_id": "MSG-CORPUS-0003-00001"
+      }
+    ]
+  },
+  "expected": {
+    "verdict": "accept",
+    "artefacts": {
+      "RH.txt": "6 records"
+    },
+    "answer_key": [
+      {
+        "movement_id": "MOV-0003-0001",
+        "intent_id": "INT-0003-0001",
+        "kind": "sct_out",
+        "expected_outcome": "settle",
+        "match_class": "one_to_one"
+      }
+    ]
+  },
+  "notes": ""
+}

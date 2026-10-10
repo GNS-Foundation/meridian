@@ -1,0 +1,70 @@
+{
+  "id": "ak-001-match-classes",
+  "kind": "positive",
+  "polarity": "positive",
+  "assumptions": [],
+  "covers": [
+    "BANK-002-19",
+    "BANK-002-16",
+    "BANK-002-20"
+  ],
+  "title": "answer key with all six match_class labels and a generator block",
+  "input": {
+    "episode": "corpus"
+  },
+  "expected": {
+    "verdict": "accept",
+    "answer_key": [
+      {
+        "movement_id": "MOV-AK-1",
+        "intent_id": "INT-AK-1",
+        "match_class": "one_to_one"
+      },
+      {
+        "movement_id": "MOV-AK-2",
+        "intent_id": "INT-AK-2",
+        "match_class": "one_to_many"
+      },
+      {
+        "movement_id": "MOV-AK-3",
+        "intent_id": "INT-AK-3",
+        "match_class": "many_to_one"
+      },
+      {
+        "movement_id": "MOV-AK-4",
+        "intent_id": "INT-AK-4",
+        "match_class": "partial"
+      },
+      {
+        "movement_id": "MOV-AK-5",
+        "intent_id": "INT-AK-5",
+        "match_class": "duplicate"
+      },
+      {
+        "movement_id": "MOV-AK-6",
+        "intent_id": "INT-AK-6",
+        "match_class": "unmatched_noise"
+      }
+    ],
+    "generator": {
+      "seed": 42,
+      "episode": "corpus",
+      "start_date": "2026-01-05",
+      "scenarios": [
+        "corpus@0"
+      ],
+      "spec_version": "BANK-000..005@fc545ac",
+      "assumptions_in_force": [
+        "A-01",
+        "A-03",
+        "A-04",
+        "A-06",
+        "A-07",
+        "A-08",
+        "A-09",
+        "A-10"
+      ]
+    }
+  },
+  "notes": ""
+}

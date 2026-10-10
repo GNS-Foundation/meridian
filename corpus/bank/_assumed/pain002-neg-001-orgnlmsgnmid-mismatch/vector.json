@@ -1,0 +1,22 @@
+{
+  "id": "pain002-neg-001-orgnlmsgnmid-mismatch",
+  "kind": "assumed",
+  "polarity": "negative",
+  "assumptions": [
+    "A-04"
+  ],
+  "covers": [
+    "BANK-005-24",
+    "BANK-004-51",
+    "BANK-005-20"
+  ],
+  "title": "OrgnlMsgNmId = pain.008.001.02 while the bank's collections are pain.008.001.08",
+  "input": {
+    "derived_from": "pain002-001-reject-AC04"
+  },
+  "expected": {
+    "verdict": "reject",
+    "rule_id": "PAIN002-ORGNL-MSGNM"
+  },
+  "notes": ""
+}

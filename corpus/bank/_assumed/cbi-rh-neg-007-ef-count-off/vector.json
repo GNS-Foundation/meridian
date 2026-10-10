@@ -1,0 +1,24 @@
+{
+  "id": "cbi-rh-neg-007-ef-count-off",
+  "kind": "assumed",
+  "polarity": "negative",
+  "assumptions": [
+    "A-01"
+  ],
+  "covers": [
+    "BANK-005-22",
+    "BANK-004-23",
+    "BANK-005-20",
+    "BANK-004-12"
+  ],
+  "title": "EF numero record 11 instead of 10",
+  "input": {
+    "derived_from": "cbi-rh-002-sct-in-48-full-63-chain",
+    "mutation": "EF numero record 11 instead of 10"
+  },
+  "expected": {
+    "verdict": "reject",
+    "rule_id": "CBI-RH-EF-COUNT"
+  },
+  "notes": ""
+}

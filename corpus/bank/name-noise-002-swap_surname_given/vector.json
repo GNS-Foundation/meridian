@@ -1,0 +1,35 @@
+{
+  "id": "name-noise-002-swap_surname_given",
+  "kind": "positive",
+  "polarity": "positive",
+  "assumptions": [],
+  "covers": [
+    "BANK-003-08",
+    "BANK-001-06",
+    "BANK-002-16"
+  ],
+  "title": "counterparty-name operator swap_surname_given()",
+  "input": {
+    "counterparty_name_clean": "Fabrizia Ventoscuro",
+    "name_noise_ops": [
+      "swap_surname_given()"
+    ],
+    "intended_holder_id": "HLD-PAYER"
+  },
+  "expected": {
+    "verdict": "accept",
+    "counterparty_name_emitted": "Ventoscuro Fabrizia",
+    "answer_key": [
+      {
+        "counterparty_name_clean": "Fabrizia Ventoscuro",
+        "counterparty_name_emitted": "Ventoscuro Fabrizia",
+        "name_noise_ops": [
+          "swap_surname_given()"
+        ],
+        "intended_holder_id": "HLD-PAYER",
+        "match_class": "one_to_one"
+      }
+    ]
+  },
+  "notes": ""
+}
