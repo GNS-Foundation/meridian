@@ -5,9 +5,11 @@ Sub-package of the Meridian SIM (BANK-000-02). It computes NO reputation, import
 Every writer cites its source and carries the `A-nn` assumptions it depends on (BANK-000-07).
 """
 SPEC_VERSION = "BANK-000..005@420d95a"
-# Digest of every file under spec/ at the commit named in SPEC_VERSION (tests/bank/test_spec_version.py). A content
-# digest is used instead of `git log -- spec/` because the check must also work where there is no git history: shallow
-# CI clones, sdists, and the downstream venv that installs this package from a commit. Recompute with `spec_digest()`.
+# Digest of every file under spec/ at the commit named in SPEC_VERSION (tests/bank/test_spec_version.py). It is checked
+# in THIS repository only (clone, CI, sdist): the wheel ships `meridian/` alone (pyproject `packages = ["meridian"]`), so
+# spec/ is not in a downstream venv and the digest cannot be recomputed there. Downstream verifies the installed commit
+# (direct_url.json) and SPEC_VERSION; the digest guarantees here that SPEC_VERSION is honest about the spec it names.
+# A content digest (not `git log -- spec/`) so the check also runs on shallow clones and sdists without git history.
 SPEC_DIGEST = "sha256:2699caecc76f13432fac35a58fd45d27ace35dcc0cf8e7e1f375429c3eebb320"
 
 

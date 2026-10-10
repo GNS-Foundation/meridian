@@ -1,7 +1,8 @@
 """SPEC_VERSION names the commit the implementation was built against; SPEC_DIGEST pins the content of spec/ at that
-commit. Editing anything under spec/ without bumping both constants fails here, so a downstream pin (APS-002-04 style:
-installed commit + SPEC_VERSION) cannot silently drift from the spec text. Content digest, not `git log`, so the check
-also runs without git history (see the comment next to SPEC_DIGEST)."""
+commit. Editing anything under spec/ without bumping both constants fails here. This check runs in this repository only
+(clone, CI, sdist): the wheel ships `meridian/` alone, so spec/ is absent from a downstream venv and the digest cannot be
+recomputed there. Downstream verifies the installed commit (direct_url.json) plus SPEC_VERSION; this test guarantees
+that SPEC_VERSION is honest about the spec it names. Content digest, not `git log`, so it also runs without history."""
 from __future__ import annotations
 
 import re
