@@ -12,6 +12,10 @@ from meridian.bank.formats import Selection, register
 from meridian.bank.world import BankWorldView
 
 
+CAUSALE_61_ORDINARY = "93001"          # record 61 pos. 29-33, ordinary transmission (BANK-004-13)
+CAUSALE_61_RETRANSMISSION = "93011"
+
+
 def rec(fields: list[tuple[int, int, str, str]]) -> str:
     line = [" "] * 120
     for a, b, val, kind in fields:
@@ -32,8 +36,8 @@ def r_trailer(abi: str, sia: str, created: date, support: str, n_statements: int
                 (46, 52, n_statements, "n"), (83, 89, n_records, "n")])
 
 
-def r61(prog: int, iban: str, opening: int, book: date, currency: str = "EUR", causale: str = "93001") -> str:
-    return rec([(2, 3, "61", "an"), (4, 10, prog, "n"), (29, 33, causale, "n"), (52, 52, iban[4], "an"), (53, 57, iban[5:10], "n"), (58, 62, iban[10:15], "n"),
+def r61(prog: int, iban: str, opening: int, book: date, currency: str = "EUR", causale: str | None = None) -> str:
+    return rec([(2, 3, "61", "an"), (4, 10, prog, "n"), (29, 33, causale or CAUSALE_61_ORDINARY, "n"), (52, 52, iban[4], "an"), (53, 57, iban[5:10], "n"), (58, 62, iban[10:15], "n"),
                 (63, 74, iban[15:27], "an"), (75, 77, currency, "an"), (78, 83, ggmmaa(book), "n"), (84, 84, "C" if opening >= 0 else "D", "an"),
                 (85, 99, abs(opening), "n"), (100, 101, "IT", "an"), (102, 103, iban[2:4], "n")])
 

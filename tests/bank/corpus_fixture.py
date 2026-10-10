@@ -1,31 +1,25 @@
-"""Builds the BankWorld that the corpus artefact vectors assume (corpus/bank/data/synthetic_banks.json + README).
-
-GAP G-1 (reported in the PR): the corpus vector `input` blocks omit several facts that the artefacts encode (ordering
-party fiscal code / address / locality, bank references, header support names, creation date). They are supplied here
-as fixtures, documented per field, so byte-for-byte reproduction is from input + these fixture conventions."""
+"""Builds BankWorlds for the corpus vectors FROM THE CORPUS ONLY: banks/holders/accounts from
+corpus/bank/data/synthetic_banks.json, every artefact fact from the vector's `input` (corpus revision G-1).
+No test-side fixture value is involved: a field missing from the corpus makes the reproduction fail."""
 from __future__ import annotations
 
 import json
-import re
 from datetime import date
 from pathlib import Path
 
 from meridian.bank.entities import Account, Bank, Branch, Holder, Intent, Mandate
-from meridian.bank.world import BankWorld, compute_balances, expire_notices, materialise
+from meridian.bank.formats.camt053 import render_statement
+from meridian.bank.formats.camt054 import render_notification
+from meridian.bank.formats.cbi_im import render_im
+from meridian.bank.formats.cbi_rh import render_flow
+from meridian.bank.formats.pain002 import render_reject
 from meridian.bank.rng import rng_for
+from meridian.bank.world import BankWorld, compute_balances, expire_notices, materialise
 
 REPO = Path(__file__).resolve().parents[2]
 CORPUS = REPO / "corpus" / "bank"
 MANIFEST = json.loads((CORPUS / "MANIFEST.json").read_text(encoding="utf-8"))
-BANKS = json.loads((CORPUS / "data" / "synthetic_banks.json").read_text(encoding="utf-8"))
-IBAN = {a["account_id"]: a["iban"] for a in BANKS["accounts"]}
-SIM_DAY = date(2026, 1, 5)                                 # corpus sim date (RH header 050126, camt 2026-01-05)
-FIXTURE = {                                                 # G-1: facts the vector inputs omit
-    "fiscal_code_like": "FBRZVNT99Z99Z999",                # record 63 YYY pos. 25-40 (16 chars)
-    "address_label": "VIA DEI PINI FINTI 12",              # record 63 YY2 pos. 17-66
-    "locality_label": "ROCCALUNA",                         # record 63 YYY pos. 81-120
-    "sia_receiver": "A1B2C",                               # RH header pos. 9-13
-}
+DATA = json.loads((CORPUS / "data" / "synthetic_banks.json").read_text(encoding="utf-8"))
 
 
 def load_vector(path: str) -> dict:
@@ -37,65 +31,101 @@ def read_artefact(path: str, name: str) -> str:
         return fh.read()
 
 
-def corpus_world(episode: str = "corpus", days: list[date] | None = None) -> BankWorld:
-    w = BankWorld(seed=0, episode=episode, start_date=SIM_DAY, days=days or [SIM_DAY])
-    b1, b2 = BANKS["banks"]
-    w.banks["BNK-CORPUS-1"] = Bank(bank_id="BNK-CORPUS-1", name=b1["name"], abi=b1["abi"], bic=b1["bic"], branches=[Branch(cab="12345", label="Roccaluna")], sia_receiver=FIXTURE["sia_receiver"], episode=episode)
-    w.banks["BNK-CORPUS-2"] = Bank(bank_id="BNK-CORPUS-2", name=b2["name"], abi=b2["abi"], bic=b2["bic"], branches=[Branch(cab="54321", label="Lagobianco")], sia_receiver=FIXTURE["sia_receiver"], episode=episode)
-    H = lambda hid, kind, name, fc: Holder(holder_id=hid, kind=kind, display_name=name, fiscal_code_like=fc, address_label=FIXTURE["address_label"], locality_label=FIXTURE["locality_label"], episode=episode)
-    w.holders["HLD-ORG"] = H("HLD-ORG", "organisation", "Nebbialunga Servizi Finti S.r.l.", "99999999990")
-    w.holders["HLD-PAYER"] = H("HLD-PAYER", "person", "Fabrizia Ventoscuro", FIXTURE["fiscal_code_like"])
-    w.holders["HLD-OTTAVIO"] = H("HLD-OTTAVIO", "person", "Ottavio Pietranera", "PTRTTV99Z99Z999Z")
-    w.holders["HLD-CLELIA"] = H("HLD-CLELIA", "person", "Clelia Marmorosa", "MRMCLL99Z99Z999Z")
-    w.accounts["ACC-MAIN"] = Account(account_id="ACC-MAIN", bank_id="BNK-CORPUS-1", cab="12345", holder_id="HLD-ORG", iban=IBAN["ACC-MAIN"], episode=episode)
-    w.accounts["ACC-PAYER"] = Account(account_id="ACC-PAYER", bank_id="BNK-CORPUS-2", cab="54321", holder_id="HLD-PAYER", iban=IBAN["ACC-PAYER"], episode=episode)
-    w.accounts["ACC-PAYER2"] = Account(account_id="ACC-PAYER2", bank_id="BNK-CORPUS-2", cab="54321", holder_id="HLD-OTTAVIO", iban=IBAN["ACC-PAYER2"], episode=episode)
+def corpus_world(episode: str, days: list[date], sia_receiver: str | None = None) -> BankWorld:
+    """Banks, holders and accounts exactly as corpus/bank/data/synthetic_banks.json describes them."""
+    w = BankWorld(seed=0, episode=episode, start_date=days[0], days=days)
+    for b in DATA["banks"]:
+        w.banks[b["bank_id"]] = Bank(bank_id=b["bank_id"], name=b["name"], abi=b["abi"], bic=b["bic"], branches=[Branch(cab=c, label="") for c in b["cab"]],
+                                     sia_receiver=sia_receiver or b.get("sia_receiver", ""), episode=episode)
+    for h in DATA["holders"]:
+        w.holders[h["holder_id"]] = Holder(holder_id=h["holder_id"], kind=h["kind"], display_name=h["display_name"], fiscal_code_like=h["fiscal_code_like"],
+                                           address_label=h["address_label"], locality_label=h["locality_label"], episode=episode)
+    abi_to_bank = {b["abi"]: b["bank_id"] for b in DATA["banks"]}
+    for a in DATA["accounts"]:
+        iban = a["iban"]
+        w.accounts[a["account_id"]] = Account(account_id=a["account_id"], bank_id=abi_to_bank[iban[5:10]], cab=iban[10:15], holder_id=a["holder_id"], iban=iban, episode=episode)
     return w
 
 
-def holder_by_name(w: BankWorld, name: str) -> str:
-    return next(h.holder_id for h in w.holders.values() if h.display_name == name)
-
-
-def rh_vector_number(vector_id: str) -> int:
-    return int(re.search(r"cbi-rh-(\d{3})", vector_id).group(1))
-
-
-def intents_from_rh_input(w: BankWorld, vector_id: str, inp: dict) -> list[Intent]:
-    """Map a cbi-rh vector `input.intents` onto Intents. G-1: bank references are the corpus authoring sequence
-    (vector n -> CRO26 + (n-1)), the support name is CORPUS-RH-000n, the outbound descr is SUPPORTO-CORPUS-000n."""
-    n = rh_vector_number(vector_id)
-    out: list[Intent] = []
-    for k, it in enumerate(inp.get("intents", []), start=1):
-        iid = f"INT-{n:04d}-{k:04d}"
-        ref = f"CRO26{n - 1:011d}"
-        if it["kind"] == "sct_in":
-            out.append(Intent(intent_id=iid, scenario_id="corpus", kind="sct_in", when=SIM_DAY.isoformat(),
-                              parties={"beneficiary_account_id": inp["account"], "payer_holder_id": holder_by_name(w, it["payer"]), "payer_iban": it["payer_iban"]},
-                              amount_cents=it["amount_cents"], remittance_clean=it["remittance"], counterparty_name_noise=["upper()"],
-                              extra={"end_to_end_id": it["end_to_end_id"], "bank_reference": ref}))
-        elif it["kind"] == "sct_out":
-            out.append(Intent(intent_id=iid, scenario_id="corpus", kind="sct_out", when=SIM_DAY.isoformat(), parties={"ordering_account_id": inp["account"]},
-                              amount_cents=it["amount_cents"], extra={"message_id": it["message_id"], "support_name": f"SUPPORTO-CORPUS-{n:04d}", "bank_reference": ref}))
-        elif it["kind"] == "fee":
-            out.append(Intent(intent_id=iid, scenario_id="corpus", kind="fee", when=SIM_DAY.isoformat(), parties={"account_id": inp["account"]},
-                              amount_cents=it["amount_cents"], extra={"instrument": it.get("instrument", ""), "bank_reference": ref}))
-    return out
-
-
-def materialise_all(w: BankWorld, intents: list[Intent], opening: dict[str, int]) -> None:
+def run(w: BankWorld, intents: list[Intent], opening: dict[str, int]) -> None:
     for it in sorted(intents, key=lambda i: (i.when, i.intent_id)):
         materialise(w, it, rng_for(w.seed, "materialise", it.intent_id))
     expire_notices(w, w.days[-1].isoformat())
     compute_balances(w, opening)
 
 
-def sdd_world(collection: dict, outcome: str, r_date: str | None, days: list[date]) -> tuple[BankWorld, str]:
-    """World for the SDD vectors: mandate UMR-CORPUS-0001, creditor ACC-MAIN, debtor ACC-PAYER2 (debtor name per vector)."""
-    w = corpus_world(days=days)
-    w.mandates["UMR-CORPUS-0001"] = Mandate(mandate_id="UMR-CORPUS-0001", creditor_id="IT00ZZZ99101000000001", creditor_name=collection["creditor"], creditor_account_id="ACC-MAIN",
-                                            debtor_account_id="ACC-PAYER2", debtor_name=collection["debtor"], signed_on="2025-06-01", sequence_type=collection.get("sequence_type", "RCUR"), episode="corpus")
-    it = Intent(intent_id="SDD-0001", scenario_id="corpus", kind="sdd_collect", when=collection["settlement_date"], parties={"mandate_id": "UMR-CORPUS-0001"},
-                amount_cents=collection["amount_cents"], expected_outcome=outcome, extra={"collection_id": collection["collection_id"], "end_to_end_id": collection["end_to_end_id"], **({"r_date": r_date} if r_date else {})})
-    materialise_all(w, [it], {"ACC-MAIN": 100000, "ACC-PAYER2": 100000})
-    return w, collection["collection_id"]
+def _iso(d: str) -> date:
+    return date.fromisoformat(d)
+
+
+def rh_intents(inp: dict) -> list[Intent]:
+    """Intents from a cbi-rh vector `input` (every artefact fact is explicit in the input)."""
+    out: list[Intent] = []
+    for k, it in enumerate(inp.get("intents", []), start=1):
+        iid = f"INT-{k:04d}"; when = it.get("booking_date", inp["header"]["book_date"])
+        base = {"bank_reference": it["bank_reference"]}
+        if it["kind"] == "sct_in":
+            out.append(Intent(intent_id=iid, scenario_id="corpus", kind="sct_in", when=when,
+                              parties={"beneficiary_account_id": inp["account"], "payer_holder_id": it["payer_holder_id"], "payer_iban": it["payer_iban"]},
+                              amount_cents=it["amount_cents"], remittance_clean=it["remittance"], counterparty_name_noise=it.get("name_noise_ops", []),
+                              extra={**base, "end_to_end_id": it["end_to_end_id"], "order_date": it["order_date"]}))
+        elif it["kind"] == "sct_out":
+            out.append(Intent(intent_id=iid, scenario_id="corpus", kind="sct_out", when=when, parties={"ordering_account_id": inp["account"]}, amount_cents=it["amount_cents"],
+                              extra={**base, "message_id": it["message_id"], "customer_ref_type": it["customer_ref_type"], "customer_ref_text": it["customer_ref_text"]}))
+        elif it["kind"] == "fee":
+            out.append(Intent(intent_id=iid, scenario_id="corpus", kind="fee", when=when, parties={"account_id": inp["account"]}, amount_cents=it["amount_cents"],
+                              extra={**base, "instrument": it.get("instrument", ""), "cheque_number": it.get("cheque_number", "")}))
+    return out
+
+
+def rh_world(inp: dict) -> BankWorld:
+    h = inp["header"]
+    w = corpus_world("corpus", [_iso(h["book_date"])], sia_receiver=h["sia_receiver"])
+    run(w, rh_intents(inp), {inp["account"]: inp["opening_cents"]})
+    return w
+
+
+def sdd_world(inp: dict, outcome: str) -> tuple[BankWorld, str]:
+    """World for the SDD-based artefact vectors (camt054-002, pain002-001): mandate and collection from the input."""
+    r = inp["r_transaction"]
+    days = sorted({_iso(inp["settlement_date"]), _iso(r["date"])})
+    w = corpus_world(inp["episode"], days)
+    w.mandates[inp["mandate_id"]] = Mandate(mandate_id=inp["mandate_id"], creditor_id=inp["creditor_id"], creditor_name=inp["creditor"], creditor_account_id=inp["creditor_account_id"],
+                                           debtor_account_id=inp["debtor_account_id"], debtor_name=inp["debtor"], signed_on="2025-06-01", sequence_type=inp["sequence_type"], episode=inp["episode"])
+    it = Intent(intent_id="SDD-0001", scenario_id="corpus", kind="sdd_collect", when=inp["settlement_date"], parties={"mandate_id": inp["mandate_id"]}, amount_cents=inp["amount_cents"],
+                expected_outcome=outcome, extra={"collection_id": inp["collection_id"], "end_to_end_id": inp["end_to_end_id"], "r_date": r["date"]})
+    run(w, [it], {inp["creditor_account_id"]: 100000, inp["debtor_account_id"]: 100000})
+    return w, inp["collection_id"]
+
+
+# ---------------- reproduction: vector -> (actual artefact text, expected artefact text) ----------------
+def reproduce(m: dict) -> tuple[str, str]:
+    """Render the artefact of an artefact-bearing POSITIVE vector from its input. Used by the vector tests and by the
+    writer-mutation probes (tests/bank/test_corpus_probes.py)."""
+    v = load_vector(m["path"]); vid, inp = v["id"], v["input"]
+    if vid.startswith("cbi-rh-"):
+        w = rh_world(inp); h = inp["header"]
+        return render_flow(w.view(), h["bank_id"], _iso(h["book_date"]), [inp["account"]], h["support_name"]), read_artefact(m["path"], "RH.txt")
+    if vid.startswith("camt053-"):
+        w = rh_world(inp)
+        return render_statement(w.view(), inp["account"], _iso(inp["header"]["book_date"]), inp["msg_seq"]), read_artefact(m["path"], "camt053.xml")
+    if vid == "camt054-001-credit-notification":
+        w = rh_world(inp)
+        return render_notification(w.view(), inp["account"], _iso(inp["header"]["book_date"]), inp["msg_seq"]), read_artefact(m["path"], "camt054.xml")
+    if vid == "camt054-002-sdd-return-AM04":
+        r = inp["r_transaction"]; w, _ = sdd_world(inp, f"{r['kind']}:{r['reason_code']}")
+        return render_notification(w.view(), inp["account"], _iso(r["date"]), inp["msg_seq"]), read_artefact(m["path"], "camt054.xml")
+    if vid == "pain002-001-reject-AC04":
+        r = inp["r_transaction"]; w, cid = sdd_world(inp, f"{r['kind']}:{r['reason_code']}")
+        coll = w.collections[cid]
+        return render_reject(w.view(), coll, w.mandates[coll.mandate_id], inp["msg_seq"]), read_artefact(m["path"], "pain002.xml")
+    if vid == "cbi-im-001-mav-paid-assumed":
+        h = inp["header"]; w = corpus_world("corpus", sorted({_iso(h["creation_date"]), _iso(inp["paid_on"])}), sia_receiver=h["sia_receiver"])
+        its = [Intent(intent_id="MAV-I", scenario_id="corpus", kind="mav_issue", when=inp["issued_on"], parties={"creditor_account_id": inp["creditor_account_id"], "debtor_holder_id": inp["debtor_holder_id"]}, amount_cents=inp["amount_cents"], extra={"mav_id": inp["mav_id"], "due_date": inp["due_date"]}),
+               Intent(intent_id="MAV-P", scenario_id="corpus", kind="mav_pay", when=inp["paid_on"], parties={"creditor_account_id": inp["creditor_account_id"]}, amount_cents=inp["amount_cents"], extra={"mav_id": inp["mav_id"], "paying_channel": inp["paying_channel"]})]
+        run(w, its, {inp["creditor_account_id"]: 100000})
+        return render_im(w.view(), h["bank_id"], _iso(h["creation_date"]), h["support_name"], [inp["mav_id"]]), read_artefact(m["path"], "IM.txt")
+    raise KeyError(f"no reproduction for {vid}")
+
+
+ARTEFACT_POSITIVES = [m for m in MANIFEST["vectors"] if m["artefacts"] and (m.get("polarity") or ("negative" if m["expected_rule_id"] else "positive")) == "positive"]

@@ -148,7 +148,7 @@ def _sct_in(w: BankWorld, intent: Intent) -> list[Movement]:
                  amount_cents=intent.amount_cents, cbi_causale=w.causale["sct_in"], bank_reference=w.bank_reference_for(intent),
                  end_to_end_id=intent.extra.get("end_to_end_id") or f"E2E-{intent.intent_id}"[:35], remittance_unstructured=rem_emitted,
                  counterparty=_counterparty_from_holder(payer, payer_iban, name_emitted), instrument_ref=intent.intent_id, kind="sct_in",
-                 order_date=ggmmaaaa(date.fromisoformat(intent.when)), episode=w.episode)
+                 order_date=ggmmaaaa(date.fromisoformat(intent.extra.get("order_date", intent.when))), episode=w.episode)
     w.movements.append(m)
     row = _base_row(w, intent, m)
     row.update({"remittance_clean": intent.remittance_clean, "remittance_emitted": rem_emitted, "noise_ops": list(intent.remittance_noise),
@@ -165,7 +165,7 @@ def _sct_out(w: BankWorld, intent: Intent) -> list[Movement]:
                  amount_cents=intent.amount_cents, cbi_causale=w.causale["sct_out"], bank_reference=w.bank_reference_for(intent),
                  message_id=intent.extra.get("message_id") or f"MSG-{intent.intent_id}"[:35], end_to_end_id=intent.extra.get("end_to_end_id", ""),
                  remittance_unstructured=noise.apply_remittance(intent.remittance_clean, intent.remittance_noise),
-                 customer_ref_type="NROSUPCBI", customer_ref_text=intent.extra.get("support_name") or f"SUPPORTO-{intent.intent_id}"[:34],
+                 customer_ref_type=intent.extra.get("customer_ref_type", "NROSUPCBI"), customer_ref_text=intent.extra.get("customer_ref_text") or intent.extra.get("support_name") or f"SUPPORTO-{intent.intent_id}"[:34],
                  instrument_ref=intent.intent_id, kind="sct_out", episode=w.episode)
     w.movements.append(m)
     row = _base_row(w, intent, m); row.update({"remittance_clean": intent.remittance_clean, "remittance_emitted": m.remittance_unstructured, "noise_ops": list(intent.remittance_noise)})

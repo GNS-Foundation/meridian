@@ -12,6 +12,7 @@ from meridian.bank.formats import Selection, cents, register
 from meridian.bank.world import BankWorldView
 
 NS = "urn:iso:std:iso:20022:tech:xsd:pain.002.001.10"
+TX_STATUS_REJECT = "RJCT"               # ISO ExternalPaymentTransactionStatus for a reject (BANK-004-51)
 
 
 def render_reject(world: BankWorldView, coll: Collection, mandate: Mandate, seq: int) -> str:
@@ -27,7 +28,7 @@ def render_reject(world: BankWorldView, coll: Collection, mandate: Mandate, seq:
     <OrgnlPmtInfAndSts>
       <OrgnlPmtInfId>{world.episode}-pmtinf-{seq:04d}</OrgnlPmtInfId>
       <TxInfAndSts>
-        <StsId>{world.episode}-sts-{seq:04d}</StsId><OrgnlEndToEndId>{coll.end_to_end_id}</OrgnlEndToEndId><TxSts>RJCT</TxSts>
+        <StsId>{world.episode}-sts-{seq:04d}</StsId><OrgnlEndToEndId>{coll.end_to_end_id}</OrgnlEndToEndId><TxSts>{TX_STATUS_REJECT}</TxSts>
         <StsRsnInf><Rsn><Cd>{r.reason_code}</Cd></Rsn></StsRsnInf>
         <OrgnlTxRef><Amt><InstdAmt Ccy="EUR">{cents(coll.amount_cents)}</InstdAmt></Amt><MndtRltdInf><MndtId>{mandate.mandate_id}</MndtId></MndtRltdInf><DbtrAcct><Id><IBAN>{debtor_iban}</IBAN></Id></DbtrAcct></OrgnlTxRef>
       </TxInfAndSts>
