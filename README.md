@@ -63,3 +63,19 @@ the honest-agent reputation ordering, and per-tenant row counts (idempotent — 
 
 `generative.py` writes the full answer key (true creditworthiness, true outcomes, planted capability)
 to `ground_truth/` — **git-ignored, never posted**. CGR accuracy is measured offline against it, blind.
+
+## Virtual bank (`meridian.bank`)
+
+A deterministic, client-agnostic synthetic bank (spec `spec/MERIDIAN-BANK-000..005`, conformance corpus
+`corpus/bank/`). It emits CBI RH statements, camt.053/054 and pain.002 behind an `OutputSink` protocol, with a
+separate answer key under `episodes/`. No database, no network, no new runtime dependency.
+
+```bash
+python -m meridian.bank --seed 42 --episode demo --accounts 50 --days 5          # out/demo/<format>/..., episodes/demo.bank.answer_key.json
+python -m meridian.bank --describe-formats                                         # sources + A-ids per writer
+python -m meridian.bank --format cbi-im --allow-assumed-layouts ...                # CBI IM: layout is ASSUMPTION A-02, gated
+pytest tests/bank                                                                  # corpus vectors, probes, determinism
+```
+
+Scenarios plug in without forking: `--scenario pkg.module:Class` or an entry point in group `meridian.bank.scenarios`
+(`meridian/bank/scenarios.py`). The client-agnostic deny-list is read from `MERIDIAN_DENYLIST_FILE` and never stored here.
