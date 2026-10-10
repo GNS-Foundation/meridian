@@ -1,0 +1,42 @@
+{
+  "id": "ak-neg-004-paid-mav-two-credits-unlabelled",
+  "kind": "negative",
+  "polarity": "negative",
+  "assumptions": [],
+  "covers": [
+    "BANK-005-25",
+    "BANK-001-19",
+    "BANK-003-32"
+  ],
+  "title": "MAV in state paid with two credit movements and no answer-key row labelled duplicate",
+  "input": {
+    "mav": {
+      "mav_id": "90001000000042616",
+      "state": "paid",
+      "paid_on": "2026-01-20"
+    },
+    "movements": [
+      {
+        "movement_id": "PAY-1",
+        "sign": "C",
+        "instrument_ref": "90001000000042616",
+        "booking_date": "2026-01-20",
+        "amount_cents": 8800,
+        "match_class": "one_to_one"
+      },
+      {
+        "movement_id": "PAY-2",
+        "sign": "C",
+        "instrument_ref": "90001000000042616",
+        "booking_date": "2026-01-27",
+        "amount_cents": 8800,
+        "match_class": "one_to_one"
+      }
+    ]
+  },
+  "expected": {
+    "verdict": "reject",
+    "rule_id": "AK-MAV-DUP-UNLABELLED"
+  },
+  "notes": "Counterpart of _assumed/mav-003-paid-twice: the same two payments are legitimate only when the second row carries match_class=duplicate (BANK-001-19 as corrected in PR #8, BANK-003-32)."
+}
