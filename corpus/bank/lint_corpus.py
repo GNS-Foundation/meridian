@@ -191,8 +191,8 @@ def lint(root=HERE, spec=SPEC, verbose=True):
     if deny_path:
         terms = [t.strip() for t in pathlib.Path(deny_path).read_text(encoding="utf-8").splitlines() if t.strip() and not t.startswith("#")]
         # case-insensitive WHOLE-WORD matching: a term matches only when not glued to other word characters on
-        # either side, so a short term never hits inside a longer word (e.g. "aps" does not match "maps").
-        # Multi-word terms and terms with punctuation (e.g. "net@2a") are matched literally as a unit.
+        # either side, so a short term never hits inside a longer word. Multi-word terms and terms containing
+        # punctuation are matched literally as a unit. (No example terms here: this file is itself scanned.)
         patterns = [(t, re.compile(r"(?<!\w)" + re.escape(t) + r"(?!\w)", re.IGNORECASE)) for t in terms]
         hits = []
         for p in list(root.rglob("*")) + list(spec.glob("*.md")):
