@@ -39,7 +39,7 @@ and without client data.
 - Interbank messages (pacs.*), SCT Inst, SDD B2B (only SDD Core is in scope), SEPA Request-to-Pay.
 - SDD **Refusal** and **Request for cancellation** flows (A-11).
 - RiBa, bollettini postali, F24, cheques beyond the CBI causale needed for golden realism.
-- pagoPA settlement flows (see D-05: candidate for a later *generic* Italian extension, not v1).
+- pagoPA settlement flows (D-05 decided: a *generic* pagoPA FdR instrument is a future Foundation block **BANK-006**, separate PR; not v1).
 - Fraud/AML typologies on the bank side (Meridian's existing `fraud.py` stays underwriting-only).
 - Any CGR/CCR scoring logic (moat boundary).
 

@@ -15,7 +15,7 @@ No code in this PR. Nothing here changes the existing `meridian/` package.
 | `MERIDIAN-BANK-003-payment-instruments.md` | BANK-003-xx | SCT, SDD + R-transactions, MAV |
 | `MERIDIAN-BANK-004-output-formats.md` | BANK-004-xx | CBI RH, CBI IM, camt.053/054, pain.002 behind one output interface |
 | `MERIDIAN-BANK-005-acceptance.md` | BANK-005-xx | Golden files, determinism, non-vacuity probes |
-| `OPEN-QUESTIONS.md` | A-xx, D-xx | Every ASSUMPTION, every decision for Camilo, the "belongs in Ulissy" list |
+| `OPEN-QUESTIONS.md` | A-xx, D-xx | Every ASSUMPTION, every decision with its resolution, the "belongs in Ulissy" list |
 
 ## Conventions
 
@@ -27,8 +27,8 @@ No code in this PR. Nothing here changes the existing `meridian/` package.
   Nothing in these specs was filled in from memory; where the source could not be retrieved the item is an
   ASSUMPTION, not a guess presented as fact.
 - **Client-agnostic:** no client names, no utility- or sector-specific scenarios, no personal data. Anything
-  client-specific found during drafting was moved to the "belongs in Ulissy" list (ADR-0005 placement rule,
-  `Ulissy-s-r-l/eu-governed-agent/docs/decisions/2026-09-23-placement-rule-meridian-vs-product.md`).
+  client-specific found during drafting was moved to the "belongs in Ulissy" list, per the ADR-0005 placement rule
+  (Ulissy internal document).
 - Field positions for fixed-width records are **1-based inclusive** ranges exactly as the CBI documents print them.
 
 ## Source register (retrieved 2026-10-10)

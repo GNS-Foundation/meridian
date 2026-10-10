@@ -39,14 +39,16 @@ artefact and assert it passes.
 | BANK-005-24 | Minimum probe set for SEPA: `Ustrd` of 141 chars; refund dated 8 weeks + 1 day after settlement with `MD06`; refund `MD01` dated 13 months + 1 day; reject carrying a code whose S4 column does not include "Reject" (e.g. `MD06`); return before settlement; `OrgnlMsgNmId` mismatch. |
 | BANK-005-25 | Minimum probe set for the answer key: a movement with no `intent_id`; an SDD refund whose original collection is not `settled`; a `paid` MAV with no credit movement. |
 | BANK-005-26 | XML: a mutated element name MUST fail XSD validation (BANK-005-07); the probe is skipped (not passed) when XSDs are unavailable, and the skip reason names D-02. |
+| BANK-005-27 | Minimum probe set for counterparty-name noise (BANK-003-08): a record 63 `YYY` name field of 41 chars (`CBI-RH-63-YYY-NAME-40`); an emitted person name with a token outside the curated list (`NAME-NOT-CURATED`); an answer-key row where `third_party_payer` is applied but `intended_holder_id` equals the payer's holder (`AK-THIRD-PARTY-DISTINCT`); an answer-key operator list that does not reproduce `counterparty_name_emitted` from `counterparty_name_clean` when replayed (`AK-NAME-NOISE-REPLAY`); `initials()` output longer than the clean surname plus 3 chars (`NOISE-INITIALS-SHAPE`). |
 
 ## 5.4 Existing guardrails extended
 
 | Id | Requirement |
 |---|---|
 | BANK-005-30 | `tests/test_boundary.py` forbidden-identifier scan and import scan MUST include `meridian/bank/**` (BANK-000-04). |
-| BANK-005-31 | `tests/test_pii_free.py::test_source_never_calls_faker_pii_generators` MUST include `meridian/bank/**`; if D-09 allows person names for holders, the allow-list MUST be explicit (one function, one file) and the emitted-payload scan MUST still forbid emails and government-id patterns. |
+| BANK-005-31 | `tests/test_pii_free.py::test_source_never_calls_faker_pii_generators` MUST include `meridian/bank/**` with **no allow-list**: person display names come only from `meridian/bank/data/fictional_names.*` (BANK-001-06, D-09 option a). The emitted-payload scan MUST still forbid emails and government-id patterns, and MUST additionally assert that every emitted person name is composed only of entries of the curated list (`rule_id` `NAME-NOT-CURATED`). |
 | BANK-005-32 | A new `test_client_agnostic.py` MUST fail if any file under `meridian/bank/**`, `tests/golden/**` or `spec/**` contains a string from a maintained deny-list of real institution identifiers (real ABI codes list is *not* vendored; the deny-list holds only names/patterns Camilo supplies, D-10) or any of the client names recorded in `OPEN-QUESTIONS.md` "belongs in Ulissy". |
+| BANK-005-33 | **Non-vacuity probe for the PII scan** (row in the BANK-005-21 table): `test_probe_faker_name_in_bank_package_is_caught` MUST create a temporary module inside a copy of the `meridian/bank/` tree (fixture copy under `tmp_path`, scan root monkeypatched) containing a `fk.name()` call, run the BANK-005-31 scan against it, assert it **fails** naming that file, then remove the module and assert the scan **passes** again. A probe that cannot make the scan fail is itself a test failure. |
 
 ## 5.5 XSD validation (optional dev dependency)
 

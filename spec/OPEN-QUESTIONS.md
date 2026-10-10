@@ -21,27 +21,29 @@ requirement. An assumption is closed only by citing the primary source (document
 | A-11 | SDD Refusal and Request for cancellation are safe to omit in v1. | Scope choice, not a source gap; recorded as an assumption because `MS02` lists Refusal among its R-types (S4 p.10). | BANK-003-17 | Camilo's call. |
 | A-12 | Banks commonly place a truncated remittance in rec 62 pos. 87-120 when pos. 78-86 is blank. | S1 defines pos. 87-120 as "Riferimento cliente – descrizione movimento" with mandatory content only when 78-86 holds a keyword; free use is bank practice, not a rule in S1. | BANK-003-06 | Inspect real RH samples; otherwise keep it off by default. |
 
-## D — Decisions for Camilo
+## D — Decisions (status as of review round 1, 2026-10-10)
 
-| Id | Decision needed | Spec default until decided |
+All decisions below are **decided** unless marked otherwise. "Decided (default)" means Camilo confirmed the spec default.
+
+| Id | Decision | Resolution |
 |---|---|---|
-| D-01 | Storage: keep Meridian's in-memory + JSON approach (no DB)? | Yes (BANK-001-20..23). |
-| D-02 | XSD validation: add `xmlschema` (or `lxml`) as **dev** dependency? Vendor ISO 20022 XSD files in the repo (licensing of ISO schemas) or download at test time? | Dev-only dependency; XSDs **not** committed; tests skip without `MERIDIAN_ISO20022_XSD_DIR` (BANK-005-07). |
-| D-03 | camt versions: `.001.08` only, or also `.001.02` for legacy consumers? | `.001.08` only (BANK-004-40). |
-| D-04 | CBI IM: build now on A-02 behind `--allow-assumed-layouts`, or wait until CBI-MAV-001 is sourced? | Build gated (BANK-004-30). |
-| D-05 | pagoPA settlement flows (FdR "identificativoFlusso" in the causale) — a *generic Italian public-sector* instrument. Foundation (generic, later block BANK-006) or Ulissy (client delivery)? | Out of v1; not in the Foundation spec until decided. |
-| D-06 | Packaging: sub-package `meridian.bank` inside this repo (spec default) vs separate distribution `meridian-bank`. | Sub-package (BANK-000-02). |
-| D-07 | CLI entry: `python -m meridian.bank` and a `meridian-bank` console script? | `python -m meridian.bank` only. |
-| D-08 | Field naming language: CBI Italian terms (`causale`, `progressivo`) kept verbatim in code, or English with Italian in comments? | Italian for CBI-specific fields, English elsewhere. |
-| D-09 | **Holder person names.** `tests/test_pii_free.py:34-43` forbids Faker name generators. A realistic bank needs person-shaped holder names. Options: (a) curated repo-owned list of obviously fictional names; (b) allow Faker `name()` in exactly one function with an explicit allow-list; (c) organisations only in v1. | (c) organisations only until decided (BANK-001-06, BANK-005-31). |
-| D-10 | Confirm the synthetic ABI range and whether to maintain a deny-list of real bank names/codes for `test_client_agnostic` (BANK-005-32). | `99000–99999`; deny-list empty until supplied. |
-| D-11 | `fiscal_code_like`: deliberately checksum-invalid synthetic codice fiscale (so it can never be real), or omit the field entirely? | Checksum-invalid, documented. |
-| D-12 | Synthetic SEPA Creditor Identifier format (IT CI = country + check + business code + national id): generate structurally valid with synthetic national id, or opaque string? | Structurally valid, synthetic; source for the CI structure to be cited before implementation. |
-| D-13 | Default volumes in BANK-002-06. | As listed. |
-| D-14 | CBI line endings `\r\n` vs `\n`; Latin-1 vs ASCII. | `\r\n`, Latin-1 (BANK-004-03). |
-| D-15 | `BkTxCd` Domain/Family/SubFamily mapping for camt entries (ISO external code sets). | Decide at implementation with the ISO external code list cited. |
-| D-16 | pain.002 `TxSts` values for returns/refunds (vs `RJCT` for rejects): emit only rejects in pain.002 and carry returns/refunds in camt.054? | Rejects only in pain.002 (BANK-004-51). |
-| D-17 | Non-IT counterparties for inbound SCT in v1? | No (BANK-003-07). |
+| D-01 | Storage. | **Decided (default):** Meridian's in-memory objects + JSON files; no database, no ORM (BANK-001-20..23). |
+| D-02 | XSD validation dependency and ISO 20022 schema files. | **Decided (default):** `xmlschema` (or `lxml`) as **dev-only** dependency; XSD files **not** committed; tests skip with a reason unless `MERIDIAN_ISO20022_XSD_DIR` is set (BANK-005-07). |
+| D-03 | camt versions. | **Decided (default):** `.001.08` only; version is a writer constant (BANK-004-40). |
+| D-04 | CBI IM on assumption A-02. | **Decided:** build now, **gated** behind `--allow-assumed-layouts`, golden files under `tests/golden/_assumed/` with `xfail` (BANK-004-30, BANK-005-04); re-verify when CBI-MAV-001 is sourced. |
+| D-05 | pagoPA FdR ("identificativoFlusso") instrument placement. | **Decided:** the *generic* pagoPA FdR instrument belongs in the **Foundation** as a future block **BANK-006**, in a **separate PR** (not written in this PR, not v1). *Client-specific* treasury reconciliation (a given body's treasury accounts, FdR-to-ledger mapping) stays in **Ulissy**. |
+| D-06 | Packaging. | **Decided (default):** sub-package `meridian.bank` in this repo (BANK-000-02). |
+| D-07 | CLI entry. | **Decided (default):** `python -m meridian.bank` only; no console script in v1. |
+| D-08 | Field naming language. | **Decided (default):** Italian CBI terms kept verbatim for CBI-specific fields (`causale`, `progressivo`), English elsewhere. |
+| D-09 | Holder person names vs the PII-free test. | **Decided: option (a).** Holders MAY be persons; person display names come only from the repo-owned curated list `meridian/bank/data/fictional_names.*`; Faker name generators stay forbidden with no allow-list; a non-vacuity probe proves the scan catches a Faker name call (BANK-001-06, BANK-005-31, BANK-005-33). |
+| D-10 | Synthetic ABI range and real-identifier deny-list. | **Decided (default):** ABI `99000–99999` (A-08 stays open until a reserved range is confirmed by source); deny-list empty until supplied (BANK-005-32). |
+| D-11 | `fiscal_code_like`. | **Decided (default):** deliberately checksum-invalid synthetic code, documented (BANK-001-06). |
+| D-12 | Synthetic SEPA Creditor Identifier format. | **Decided (default):** structurally valid, synthetic national id; the CI structure source MUST be cited before implementation (BANK-001-10). |
+| D-13 | Default volumes. | **Decided (default):** as listed in BANK-002-06. |
+| D-14 | CBI line endings and encoding. | **Decided (default):** `\r\n`, Latin-1 (BANK-004-03). |
+| D-15 | `BkTxCd` Domain/Family/SubFamily mapping. | **Decided (default):** fixed at implementation with the ISO external code list cited in the source register (BANK-004-41). |
+| D-16 | pain.002 `TxSts` scope. | **Decided (default):** rejects only (`RJCT`) in pain.002; returns/refunds reported through camt.054 entries (BANK-004-51, BANK-004-43). |
+| D-17 | Non-IT counterparties for inbound SCT. | **Decided (default):** no, `IT` only in v1 (BANK-003-07). |
 
 ## Belongs in Ulissy (placement check, ADR-0005)
 
@@ -56,8 +58,8 @@ commercial delivery, not the neutral synthetic bank:
   *generic* pagoPA instrument is D-05.
 - Lists of a client's actual banks (ABI/BIC) and any real statement samples used for calibration.
 - Excel/POI statement exports mimicking a particular bank's home-banking download.
-- Deployment kit, runbooks, DORA register entries, evidence packs for a client engagement (already Ulissy per
-  `eu-governed-agent/docs/cowork/meridian-decisions-2026-09-24.md` decision 3).
+- Deployment kit, runbooks, DORA register entries, evidence packs for a client engagement — already Ulissy per
+  the ADR-0005 placement rule (Ulissy internal document).
 
 ## Verification gaps summary
 
