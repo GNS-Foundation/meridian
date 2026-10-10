@@ -37,7 +37,7 @@ institution codes that cannot collide with a real bank (BANK-001-03, A-08).
 | BANK-001-16 | Every `Movement` MUST reference exactly one `instrument_ref` (an SCT leg, an SDD collection or R-transaction, a MAV payment, or a `fee`/`interest` internal event). No orphan movements. |
 | BANK-001-17 | Per account and `book_date`, the ordered list of movements MUST reconcile opening → closing balance (BANK-001-07). This is the invariant the CBI RH writer and the camt.053 writer both rely on. |
 | BANK-001-18 | An SDD `RTransaction` of kind `refund` MUST reference a `Collection` whose state was `settled`; a `reject` MUST reference a collection not yet settled; a `return` MUST reference a settled collection (S4: Reject/Return/Refund columns per code). Timelines: see BANK-003-10..13. |
-| BANK-001-19 | A `MavNotice` in state `paid` MUST have produced exactly one credit `Movement` on `creditor_account_id`. |
+| BANK-001-19 | A `MavNotice` in state `paid` MUST have exactly one credit `Movement` on `creditor_account_id` whose answer-key row has `match_class` ≠ `duplicate`; every further credit referencing the same `mav_id` MUST be labelled `match_class=duplicate` (BANK-003-32). ~~A `MavNotice` in state `paid` MUST have produced exactly one credit `Movement` on `creditor_account_id`.~~ *Corrected in PR #8: the struck wording contradicted BANK-003-32 (paid twice ⇒ second credit labelled `duplicate`) and corpus vector `mav-003-paid-twice`.* |
 
 ## 1.3 Storage
 
