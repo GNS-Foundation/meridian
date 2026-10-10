@@ -1,7 +1,7 @@
 {
   "_spec": "GNS-Foundation/meridian spec/MERIDIAN-BANK-000..005 @ fc545ac",
   "_authored": "2026-10-10",
-  "_revised": "2026-10-10 corpus/fix-gaps (G-1..G-4)",
+  "_revised": "2026-10-10 PR #8 (BANK-001-19 corrected: ak-neg-004 added)",
   "vectors": [
     {
       "id": "bank-001-entities",
@@ -753,6 +753,20 @@
       "assumptions": [],
       "artefacts": [],
       "expected_rule_id": "AK-MAV-PAID-NO-CREDIT"
+    },
+    {
+      "id": "ak-neg-004-paid-mav-two-credits-unlabelled",
+      "kind": "negative",
+      "polarity": "negative",
+      "path": "ak-neg-004-paid-mav-two-credits-unlabelled",
+      "covers": [
+        "BANK-005-25",
+        "BANK-001-19",
+        "BANK-003-32"
+      ],
+      "assumptions": [],
+      "artefacts": [],
+      "expected_rule_id": "AK-MAV-DUP-UNLABELLED"
     },
     {
       "id": "name-neg-001-not-curated",

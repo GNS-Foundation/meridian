@@ -127,6 +127,8 @@ def test_corpus_vector(m):
         if e.get("late"): assert rows[0]["late"] is True
         if e.get("partial"): assert rows[0]["partial"] is True and rows[0]["match_class"] == "partial"
         if e.get("duplicate_payment_ids"): assert rows[-1]["match_class"] == "duplicate" and len(rows) == 2
+        movs = [m_.model_dump() for m_ in w.movements]; mavs = {mv["mav_id"]: n.model_dump()}
+        assert all(check_answer_key_row(r, movements=movs, mavs=mavs, rows=w._answer_rows) == [] for r in rows)   # BANK-001-19 as corrected in PR #8
         return
     if vid == "fee-001-debit":
         w = corpus_world("corpus", [date(2026, 1, 5)])

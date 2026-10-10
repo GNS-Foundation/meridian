@@ -49,7 +49,8 @@ RULES: dict[str, str] = {
     # answer key (BANK-005-25/27)
     "AK-NO-INTENT": "every movement links to an intent",
     "AK-REFUND-UNSETTLED": "a refund references a settled collection",
-    "AK-MAV-PAID-NO-CREDIT": "a paid MAV has exactly one credit movement",
+    "AK-MAV-PAID-NO-CREDIT": "a paid MAV has exactly one credit movement whose row is not labelled duplicate (BANK-001-19)",
+    "AK-MAV-DUP-UNLABELLED": "every further credit on a paid MAV is labelled match_class=duplicate (BANK-001-19, BANK-003-32)",
     "AK-THIRD-PARTY-DISTINCT": "third_party_payer: payer holder differs from intended holder",
     "AK-NAME-NOISE-REPLAY": "replaying name_noise_ops on the clean name reproduces the emitted name",
     "NOISE-INITIALS-SHAPE": "initials() output is at most surname + 3 chars",
@@ -220,7 +221,9 @@ def check_xml_xsd(text: str, message: str) -> list[str]:
 
 # ---------------- answer key rows ----------------
 def check_answer_key_row(row: dict, *, collections: dict[str, dict] | None = None, movements: list[dict] | None = None,
-                         mavs: dict[str, dict] | None = None) -> list[str]:
+                         mavs: dict[str, dict] | None = None, rows: list[dict] | None = None) -> list[str]:
+    """`rows` (all answer-key rows of the episode) supplies the `match_class` of the other credits of a paid MAV; a movement
+    dict may also carry `match_class` itself (corpus vectors), and the row under test labels its own movement."""
     v: list[str] = []
     if "movement_id" in row and not row.get("intent_id"):
         v.append("AK-NO-INTENT")
@@ -244,6 +247,14 @@ def check_answer_key_row(row: dict, *, collections: dict[str, dict] | None = Non
     mav = row.get("mav") or ((mavs or {}).get(row.get("mav_id", "")) if mavs else None)
     if mav and mav.get("state") == "paid":
         credits = [m for m in (movements if movements is not None else row.get("movements", [])) if m.get("sign") == "C" and m.get("instrument_ref") == mav.get("mav_id")]
-        if len(credits) != 1:
+        labels = {r.get("movement_id"): r.get("match_class", "one_to_one") for r in (rows if rows is not None else row.get("rows", []))}
+        if row.get("movement_id"):
+            labels[row["movement_id"]] = row.get("match_class", "one_to_one")
+        def label(m: dict) -> str:
+            return labels.get(m.get("movement_id"), m.get("match_class", "one_to_one"))
+        primary = [m for m in credits if label(m) != "duplicate"]
+        if not primary:                       # BANK-001-19: exactly one non-duplicate credit ...
             v.append("AK-MAV-PAID-NO-CREDIT")
+        elif len(primary) > 1:                # ... and every further credit labelled duplicate (BANK-003-32)
+            v.append("AK-MAV-DUP-UNLABELLED")
     return v

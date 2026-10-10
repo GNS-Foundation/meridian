@@ -17,6 +17,7 @@ GOOD_PAIN = read_artefact("_assumed/pain002-001-reject-AC04", "pain002.xml")
 GOOD_CAMT = read_artefact("_assumed/camt053-001-sct-in", "camt053.xml")
 GOOD_IBAN = "IT41K9910112345000000123456"
 COLL = {"collection_id": "C", "settlement_date": "2026-02-10", "state": "settled"}
+def MAV_CREDIT(mid, match_class): return {"movement_id": mid, "sign": "C", "instrument_ref": "1", "match_class": match_class}
 ROW_NAME = {"movement_id": "M", "intent_id": "I", "counterparty_name_clean": "Fabrizia Ventoscuro", "counterparty_name_emitted": "VENTOSCURO F.", "name_noise_ops": ["initials()"], "intended_holder_id": "A", "payer_holder_id": "A"}
 
 
@@ -78,6 +79,7 @@ PROBES = {
     "AK-NO-INTENT": lambda: check_answer_key_row({"movement_id": "M", "intent_id": None}),
     "AK-REFUND-UNSETTLED": lambda: check_answer_key_row({"r_transaction": {"kind": "refund"}, "collection": {"state": "presented"}}),
     "AK-MAV-PAID-NO-CREDIT": lambda: check_answer_key_row({"mav": {"mav_id": "1", "state": "paid"}, "movements": []}),
+    "AK-MAV-DUP-UNLABELLED": lambda: check_answer_key_row({"mav": {"mav_id": "1", "state": "paid"}, "movements": [MAV_CREDIT("P1", "one_to_one"), MAV_CREDIT("P2", "one_to_one")]}),
     "AK-THIRD-PARTY-DISTINCT": lambda: check_answer_key_row({"name_noise_ops": ["third_party_payer()"], "intended_holder_id": "A", "payer_holder_id": "A"}),
     "AK-NAME-NOISE-REPLAY": lambda: check_answer_key_row({**ROW_NAME, "name_noise_ops": ["upper()"]}),
     "NOISE-INITIALS-SHAPE": lambda: check_answer_key_row({**ROW_NAME, "counterparty_name_emitted": "VENTOSCURO FA."}),
@@ -90,7 +92,8 @@ CLEAN = {
     "sepa": lambda: check_remittance("X" * 140) + check_name_width("X" * 40) + check_pain002(GOOD_PAIN)
             + check_sdd(COLL, {"kind": "refund", "reason_code": "MD06", "date": "2026-04-07"}) + check_sdd(COLL, {"kind": "return", "reason_code": "AM04", "date": "2026-02-12"}),
     "ak": lambda: check_answer_key_row({"movement_id": "M", "intent_id": "I", "name_noise_ops": ["third_party_payer()"], "intended_holder_id": "A", "payer_holder_id": "B",
-                                        "counterparty_name_clean": "Fabrizia Ventoscuro", "counterparty_name_emitted": "Ottavio Pietranera"}),
+                                        "counterparty_name_clean": "Fabrizia Ventoscuro", "counterparty_name_emitted": "Ottavio Pietranera"})
+          + check_answer_key_row({"mav": {"mav_id": "1", "state": "paid"}, "movements": [MAV_CREDIT("P1", "one_to_one"), MAV_CREDIT("P2", "duplicate")]}),   # paid twice, labelled (BANK-001-19)
 }
 
 

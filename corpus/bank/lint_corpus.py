@@ -197,7 +197,7 @@ def lint(root=HERE, spec=SPEC, verbose=True):
         exp_rule = v["expected"].get("rule_id")
         if polarity == "negative":
             if not exp_rule: fails.append(f"{path}: negative vector without expected rule_id")
-            elif exp_rule in ("AK-NO-INTENT","AK-REFUND-UNSETTLED","AK-MAV-PAID-NO-CREDIT","AK-THIRD-PARTY-DISTINCT","AK-NAME-NOISE-REPLAY","NOISE-INITIALS-SHAPE","NAME-NOT-CURATED","SDD-REFUND-8W","SDD-REFUND-13M","SDD-CODE-RTYPE","SDD-RETURN-UNSETTLED","SDD-CODE-SCOPE","SDD-SEQ-AG02","SDD-NO-REFUSAL","PAIN002-ORGNL-MSGNM"):
+            elif exp_rule in ("AK-NO-INTENT","AK-REFUND-UNSETTLED","AK-MAV-PAID-NO-CREDIT","AK-MAV-DUP-UNLABELLED","AK-THIRD-PARTY-DISTINCT","AK-NAME-NOISE-REPLAY","NOISE-INITIALS-SHAPE","NAME-NOT-CURATED","SDD-REFUND-8W","SDD-REFUND-13M","SDD-CODE-RTYPE","SDD-RETURN-UNSETTLED","SDD-CODE-SCOPE","SDD-SEQ-AG02","SDD-NO-REFUSAL","PAIN002-ORGNL-MSGNM"):
                 pass  # semantic rules of the future validator: the corpus states the expectation; the lint cannot evaluate them
             elif exp_rule not in raised:
                 fails.append(f"{path}: expected {exp_rule} not detected; detected {sorted(set(raised))}")
