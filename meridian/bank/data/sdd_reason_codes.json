@@ -1,0 +1,108 @@
+{
+  "_source": "EPC173-14 v8.0 (S4), as transcribed in BANK-003-19",
+  "codes": {
+    "AC01": [
+      "reject",
+      "return"
+    ],
+    "AC04": [
+      "reject",
+      "return"
+    ],
+    "AC06": [
+      "reject",
+      "return"
+    ],
+    "AC13": [
+      "reject",
+      "return"
+    ],
+    "AG01": [
+      "reject",
+      "return"
+    ],
+    "AG02": [
+      "reject",
+      "return"
+    ],
+    "AM04": [
+      "reject",
+      "return"
+    ],
+    "AM05": [
+      "reject",
+      "return",
+      "reversal"
+    ],
+    "BE05": [
+      "reject",
+      "return"
+    ],
+    "CNOR": [
+      "reject"
+    ],
+    "DNOR": [
+      "reject"
+    ],
+    "ED05": [
+      "reject"
+    ],
+    "FF01": [
+      "reject"
+    ],
+    "MD01": [
+      "reject",
+      "return",
+      "refund"
+    ],
+    "MD02": [
+      "reject"
+    ],
+    "MD06": [
+      "refund"
+    ],
+    "MD07": [
+      "reject",
+      "return"
+    ],
+    "MS02": [
+      "reject",
+      "return",
+      "reversal",
+      "refusal"
+    ],
+    "MS03": [
+      "reject",
+      "return",
+      "reversal"
+    ],
+    "RC01": [
+      "reject",
+      "return"
+    ],
+    "RR01": [
+      "reject",
+      "return"
+    ],
+    "RR02": [
+      "reject",
+      "return"
+    ],
+    "RR03": [
+      "reject",
+      "return"
+    ],
+    "RR04": [
+      "reject",
+      "return"
+    ],
+    "SL01": [
+      "reject",
+      "return"
+    ]
+  },
+  "scheme_scope": {
+    "AC13": "B2B-only"
+  },
+  "_provenance": "copied from corpus/bank/data/sdd_reason_codes.json; transcribes EPC173-14 v8.0 as in BANK-003-19 (BANK-003-20: stored as data)"
+}
