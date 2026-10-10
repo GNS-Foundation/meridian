@@ -265,6 +265,7 @@ def self_test():
       ("IBAN-LEN-IT-27",            lambda: iban_rules(good_iban[:-1])),
       ("BIC-LEN",                   lambda: bic_rules("FNTAITMMX")),
       ("MAV-ID-LEN",                lambda: mav_rules("9000100000004261")),
+      ("CF-LIKE-INVALID",            lambda: cf_like_rules("MRMCLL99Z99Z999" + cf_check_char("MRMCLL99Z99Z999"))),
     ]
     ok = True
     for rule, mutant in cases:
@@ -272,7 +273,7 @@ def self_test():
         hit = rid in raised
         print(f"  {'PASS' if hit else 'FAIL'}  {rule:<32} mutated -> {sorted(set(raised))}")
         ok &= hit
-    clean = check_rh(good_rh) + sum((iban_rules(x) for x in ibans_in_rh(good_rh)), []) + sum((iban_rules(x) for x in re.findall(r"<IBAN>([^<]*)</IBAN>", good_xml)), []) + cf_like_rules("MRMCLL99Z99Z999Z")
+    clean = check_rh(good_rh) + sum((iban_rules(x) for x in ibans_in_rh(good_rh)), []) + sum((iban_rules(x) for x in re.findall(r"<IBAN>([^<]*)</IBAN>", good_xml)), []) + cf_like_rules("MRMCLL99Z99Z999Z") + cf_like_rules("MRMCLL99Z99Z999Z")
     print(f"  {'PASS' if not clean else 'FAIL'}  originals clean (restore)            -> {clean}")
     ok &= not clean
     return ok
