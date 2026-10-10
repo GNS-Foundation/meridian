@@ -19,9 +19,18 @@
   "input": {
     "account": "ACC-MAIN",
     "iban": "IT41K9910112345000000123456",
-    "book_date": "2026-01-05",
+    "header": {
+      "bank_id": "BNK-CORPUS-1",
+      "abi": "99101",
+      "cab": "12345",
+      "sia_receiver": "A1B2C",
+      "creation_date": "2026-01-05",
+      "book_date": "2026-01-05",
+      "causale_61": "93001",
+      "support_name": "CORPUS-RH-0001"
+    },
     "opening_cents": 100000,
-    "movements": []
+    "intents": []
   },
   "expected": {
     "verdict": "accept",

@@ -28,6 +28,29 @@ A scratch calculator (not committed) padded the 120-character records from those
 check digits and Italian CIN with the algorithm of BANK-001-05 (S11); the committed files are static. `lint_corpus.py`
 re-derives both independently, so an authoring slip shows up as a lint failure, not as a silently wrong vector.
 
+**Inputs are complete (G-1, revision corpus/fix-gaps).** Every fact an expected artefact encodes is in the vector's
+`input`: for CBI RH the `header` block (bank, ABI, CAB, SIA receiver, creation date, book date, support name, record-61
+causale) and, per intent, bank reference, value/booking dates, ordering-party name / holder / IBAN / fiscal code /
+address / locality / order date and the name-noise ops; for camt/pain the episode, message sequence, creation
+timestamp, bank-transaction codes, initiating party and `OrgnlMsgNmId`; for CBI IM the header, parties and the
+record-14 causale. An implementation reproduces the artefacts from `input` alone — no hidden fixture.
+
+## Conventions fixed in this revision (G-2, G-3, G-4)
+
+- **G-2 `ElctrncSeqNb`.** camt.053 `Stmt` carries `<ElctrncSeqNb>`; camt.054 `Ntfctn` does **not**. Source S10 (SIX
+  IG Cash Management v2.0.2, Statement/ElctrncSeqNb row): "This field is mandatory for camt.052/camt.053", i.e. not for
+  camt.054. Both camt.054 vectors now follow this rule.
+- **G-3 one holder per account.** `data/synthetic_banks.json` lists four holders and four accounts, each account with
+  exactly one `holder_id` (BANK-001-15): ACC-MAIN → HLD-ORG, ACC-PAYER → HLD-PAYER, ACC-PAYER2 → HLD-CLELIA,
+  ACC-PAYER3 → HLD-OTTAVIO. The SDD vectors name Clelia Marmorosa / ACC-PAYER2 as debtor; the third-party-payer
+  vector pays from ACC-PAYER3.
+- **G-4 codice fiscale control character — primary source.** `data/codice_fiscale_check.json` transcribes Art. 7 of
+  D.M. 23 dicembre 1976 ("Sistemi di codificazione dei soggetti da iscrivere all'anagrafe tributaria"), **Gazzetta
+  Ufficiale n. 345 del 29 dicembre 1976, Supplemento ordinario, p. 5**, read from the scanned Gazzetta PDF
+  (`https://www.gazzettaufficiale.it/eli/gu/1976/12/29/345/so/0/sg/pdf`): the even/odd conversion tables, the sum
+  divided by 26 and the remainder-to-letter table. Every `fiscal_code_like` in the corpus is synthetic and **fails**
+  that check or the 16-character shape (lint rule `CF-LIKE-INVALID`, self-tested), as BANK-001-06 / D-11 require.
+
 ## Why most writer vectors sit under `_assumed/`
 
 The spec itself marks the CBI amount unit (A-01), the RI1 field extent (A-10), the CBI IM layout (A-02), the MAV

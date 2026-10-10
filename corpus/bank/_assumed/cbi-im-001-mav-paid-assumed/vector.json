@@ -17,8 +17,26 @@
   "input": {
     "mav_id": "90001000000042616",
     "amount_cents": 8800,
+    "issued_on": "2026-01-05",
+    "due_date": "2026-01-31",
     "paid_on": "2026-01-20",
-    "paying_channel": "online"
+    "paying_channel": "online",
+    "creditor_account_id": "ACC-MAIN",
+    "creditor_holder_id": "HLD-ORG",
+    "debtor_holder_id": "HLD-CLELIA",
+    "debtor_address_label": "VIA DEI PINI FINTI 12",
+    "debtor_locality_label": "ROCCALUNA",
+    "header": {
+      "bank_id": "BNK-CORPUS-1",
+      "abi": "99101",
+      "cab": "12345",
+      "sia_receiver": "A1B2C",
+      "creation_date": "2026-01-05",
+      "book_date": "2026-01-05",
+      "causale_61": "93001",
+      "support_name": "CORPUS-IM-0001"
+    },
+    "causale_14": "30010"
   },
   "expected": {
     "verdict": "accept-if-flag",

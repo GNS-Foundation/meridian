@@ -1,0 +1,11 @@
+{
+  "_source": "Decreto Ministeriale 23 dicembre 1976, 'Sistemi di codificazione dei soggetti da iscrivere all'anagrafe tributaria', Art. 7 'Carattere alfabetico di controllo' — Gazzetta Ufficiale della Repubblica Italiana n. 345 del 29 dicembre 1976, Supplemento ordinario, p. 5 (primary source, scanned image read on 2026-10-10)",
+  "_source_url": "https://www.gazzettaufficiale.it/eli/gu/1976/12/29/345/so/0/sg/pdf",
+  "_rule": "Art. 7: each of the first fifteen characters is converted to a numeric value according to whether it occupies an EVEN (pari, 7 characters: 2nd, 4th, ... 14th) or ODD (dispari, 8 characters: 1st, 3rd, ... 15th) position; the values are added and the sum is divided by 26; the control character is the letter corresponding to the remainder in the final table.",
+  "_purpose": "BANK-001-06 / D-11: `fiscal_code_like` values in this corpus are synthetic and MUST FAIL this check (and/or the 16-character shape) so they can never be mistaken for a real codice fiscale. The lint verifies it (rule CF-LIKE-INVALID).",
+  "even_positions": {"A": 0, "0": 0, "B": 1, "1": 1, "C": 2, "2": 2, "D": 3, "3": 3, "E": 4, "4": 4, "F": 5, "5": 5, "G": 6, "6": 6, "H": 7, "7": 7, "I": 8, "8": 8, "J": 9, "9": 9,
+                     "K": 10, "L": 11, "M": 12, "N": 13, "O": 14, "P": 15, "Q": 16, "R": 17, "S": 18, "T": 19, "U": 20, "V": 21, "W": 22, "X": 23, "Y": 24, "Z": 25},
+  "odd_positions":  {"A": 1, "0": 1, "B": 0, "1": 0, "C": 5, "2": 5, "D": 7, "3": 7, "E": 9, "4": 9, "F": 13, "5": 13, "G": 15, "6": 15, "H": 17, "7": 17, "I": 19, "8": 19, "J": 21, "9": 21,
+                     "K": 2, "L": 4, "M": 18, "N": 20, "O": 11, "P": 3, "Q": 6, "R": 8, "S": 12, "T": 14, "U": 16, "V": 10, "W": 22, "X": 25, "Y": 24, "Z": 23},
+  "remainder_to_letter": "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+}

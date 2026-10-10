@@ -12,12 +12,27 @@
   "title": "Cheque debit (causale 13) with the mandatory 16-char cheque number at pos 46-61",
   "input": {
     "account": "ACC-MAIN",
+    "iban": "IT41K9910112345000000123456",
+    "header": {
+      "bank_id": "BNK-CORPUS-1",
+      "abi": "99101",
+      "cab": "12345",
+      "sia_receiver": "A1B2C",
+      "creation_date": "2026-01-05",
+      "book_date": "2026-01-05",
+      "causale_61": "93001",
+      "support_name": "CORPUS-RH-0004"
+    },
     "opening_cents": 100000,
     "intents": [
       {
         "kind": "fee",
         "instrument": "cheque",
-        "amount_cents": 20000
+        "amount_cents": 20000,
+        "cheque_number": "0000000012345678",
+        "bank_reference": "CRO2600000000003",
+        "value_date": "2026-01-05",
+        "booking_date": "2026-01-05"
       }
     ]
   },

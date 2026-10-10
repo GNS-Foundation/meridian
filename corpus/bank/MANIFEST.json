@@ -1,6 +1,7 @@
 {
   "_spec": "GNS-Foundation/meridian spec/MERIDIAN-BANK-000..005 @ fc545ac",
   "_authored": "2026-10-10",
+  "_revised": "2026-10-10 corpus/fix-gaps (G-1..G-4)",
   "vectors": [
     {
       "id": "bank-001-entities",

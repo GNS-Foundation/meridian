@@ -12,29 +12,11 @@
     "BANK-001-15",
     "BANK-001-06"
   ],
-  "title": "Two synthetic banks with branches, three accounts each with exactly one holder; names from the curated list; ABI in 99000-99999",
+  "title": "Two synthetic banks with branches, four accounts each with exactly one holder (G-3); names from the curated list; ABI in 99000-99999",
   "input": {
     "source": "data/synthetic_banks.json",
-    "holders": [
-      {
-        "holder_id": "HLD-ORG",
-        "kind": "organisation",
-        "display_name": "Nebbialunga Servizi Finti S.r.l.",
-        "fiscal_code_like": "99999999990"
-      },
-      {
-        "holder_id": "HLD-PAYER",
-        "kind": "person",
-        "display_name": "Fabrizia Ventoscuro",
-        "fiscal_code_like": "FBRZVNT99Z99Z999Z"
-      },
-      {
-        "holder_id": "HLD-OTTAVIO",
-        "kind": "person",
-        "display_name": "Ottavio Pietranera",
-        "fiscal_code_like": "PTRTTV99Z99Z999Z"
-      }
-    ]
+    "holders": "see data/synthetic_banks.json#holders (4)",
+    "accounts": "see data/synthetic_banks.json#accounts (4), one holder_id each"
   },
   "expected": {
     "verdict": "accept",

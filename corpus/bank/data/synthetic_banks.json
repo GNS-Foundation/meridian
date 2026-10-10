@@ -26,19 +26,64 @@
       "account_id": "ACC-MAIN",
       "iban": "IT41K9910112345000000123456",
       "holder": "Nebbialunga Servizi Finti S.r.l.",
-      "kind": "organisation"
+      "kind": "organisation",
+      "holder_id": "HLD-ORG"
     },
     {
       "account_id": "ACC-PAYER",
       "iban": "IT25F9920254321000000777001",
       "holder": "Fabrizia Ventoscuro",
-      "kind": "person"
+      "kind": "person",
+      "holder_id": "HLD-PAYER"
     },
     {
       "account_id": "ACC-PAYER2",
       "iban": "IT02G9920254321000000777002",
+      "holder": "Clelia Marmorosa",
+      "kind": "person",
+      "holder_id": "HLD-CLELIA"
+    },
+    {
+      "account_id": "ACC-PAYER3",
+      "iban": "IT76H9920254321000000777003",
       "holder": "Ottavio Pietranera",
-      "kind": "person"
+      "kind": "person",
+      "holder_id": "HLD-OTTAVIO"
     }
-  ]
+  ],
+  "holders": [
+    {
+      "holder_id": "HLD-ORG",
+      "kind": "organisation",
+      "display_name": "Nebbialunga Servizi Finti S.r.l.",
+      "fiscal_code_like": "99999999990",
+      "address_label": "VIA DEI PINI FINTI 12",
+      "locality_label": "ROCCALUNA"
+    },
+    {
+      "holder_id": "HLD-PAYER",
+      "kind": "person",
+      "display_name": "Fabrizia Ventoscuro",
+      "fiscal_code_like": "FBRZVNT99Z99Z999",
+      "address_label": "VIA DEI PINI FINTI 12",
+      "locality_label": "ROCCALUNA"
+    },
+    {
+      "holder_id": "HLD-CLELIA",
+      "kind": "person",
+      "display_name": "Clelia Marmorosa",
+      "fiscal_code_like": "MRMCLL99Z99Z999Z",
+      "address_label": "VIA DEI PINI FINTI 12",
+      "locality_label": "ROCCALUNA"
+    },
+    {
+      "holder_id": "HLD-OTTAVIO",
+      "kind": "person",
+      "display_name": "Ottavio Pietranera",
+      "fiscal_code_like": "PTRTTV99Z99Z999Z",
+      "address_label": "VIA LAGOBIANCO 3",
+      "locality_label": "ROCCALUNA"
+    }
+  ],
+  "_one_holder_per_account": "G-3: every account has exactly one holder (BANK-001-15); holder_id links accounts to holders"
 }
