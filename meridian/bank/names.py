@@ -25,14 +25,20 @@ def person_name(rng: np.random.Generator) -> str:
 
 
 def is_curated_person_name(name: str) -> bool:
-    """True when every token of `name` (case/accents as in the list) belongs to the curated given or surname lists
-    (initials like 'F.' are allowed only as the first letter of a curated given name)."""
+    """True when every token of `name` is BUILT FROM the curated given/surname lists (BANK-001-06, BANK-005-31):
+    exact match, accent-insensitive match (after `strip_accents()`), an initial `G.` of a curated given name, or a
+    truncation prefix (>= 3 chars, after `truncate_to_yyy_width()`) of a curated token. Any other token fails."""
+    from meridian.bank.noise import strip_accents
     c = curated()
-    tokens = [t for t in name.replace("-", " ").split() if t]
-    given = {g.lower() for g in c["given"] for g in g.split()}
-    surn = {s.lower() for s in c["surnames"]}
-    initials = {g[0].lower() + "." for g in c["given"]}
-    return bool(tokens) and all(t.lower() in given or t.lower() in surn or t.lower() in initials for t in tokens)
+    norm = lambda t: strip_accents(t).lower()
+    given = {norm(g) for gg in c["given"] for g in gg.split()}
+    surn = {norm(s) for s in c["surnames"]}
+    initials = {norm(g)[0] + "." for g in c["given"]}
+    pool = given | surn
+    tokens = [norm(t) for t in name.replace("-", " ").split() if t]
+    def ok(t: str) -> bool:
+        return t in pool or t in initials or (len(t) >= 3 and any(w.startswith(t) for w in pool))
+    return bool(tokens) and all(ok(t) for t in tokens)
 
 
 def organisation_name(rng: np.random.Generator) -> str:

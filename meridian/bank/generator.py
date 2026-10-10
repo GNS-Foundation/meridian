@@ -13,7 +13,7 @@ from meridian.bank.identifiers import SYNTHETIC_ABI_MIN, fiscal_code_like, iban_
 from meridian.bank.names import curated, organisation_name, person_name
 from meridian.bank.rng import rng_for
 from meridian.bank.scenarios import Scenario, load_scenario
-from meridian.bank.world import BankWorld, compute_balances, materialise
+from meridian.bank.world import BankWorld, compute_balances, expire_notices, materialise
 
 MAX_ACCOUNTS, MAX_DAYS = 5000, 60          # BANK-002-08: documented bounds, not silent clamps
 ASSUMPTIONS_IN_FORCE = ["A-01", "A-02", "A-03", "A-04", "A-06", "A-07", "A-08", "A-09", "A-10"]
@@ -77,6 +77,7 @@ def generate_world(cfg: BankConfig, scenarios: list[Scenario] | None = None) -> 
     w.intents.sort(key=lambda i: (i.when, i.scenario_id, i.intent_id))
     for intent in w.intents:
         materialise(w, intent, rng_for(cfg.seed, "materialise", intent.intent_id))
+    expire_notices(w, w.days[-1].isoformat())
     compute_balances(w, {a: cfg.opening_balance_cents for a in w.accounts})
     return w
 

@@ -272,3 +272,13 @@ def compute_balances(w: BankWorld, opening: dict[str, int]) -> None:
             closing = running + sum(m.amount_cents if m.sign == "C" else -m.amount_cents for m in movs)
             w.balances[(acct.account_id, d)] = Balance(account_id=acct.account_id, book_date=d, opening_book=running, closing_book=closing, currency=acct.currency)
             running = closing
+
+
+def expire_notices(w: BankWorld, as_of: str) -> None:
+    """BANK-003-32 'expired unpaid': an issued, unpaid notice whose due date is before `as_of` becomes `expired`."""
+    for n in w.mav_notices.values():
+        if n.state == "issued" and n.due_date < as_of:
+            n.state = "expired"
+            for p in w._mav_pairs:
+                if p["mav_id"] == n.mav_id:
+                    p["state"] = "expired"
