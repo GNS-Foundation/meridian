@@ -14,8 +14,34 @@
   ],
   "title": "pain.002.001.10 reject (RJCT, AC04) for collection COLL-0001 (same facts as sdd-001)",
   "input": {
+    "collection_id": "COLL-0001",
+    "mandate_id": "UMR-CORPUS-0001",
+    "creditor_id": "IT00ZZZ99101000000001",
+    "sequence_type": "RCUR",
+    "amount_cents": 4500,
+    "requested_collection_date": "2026-02-10",
+    "settlement_date": "2026-02-10",
+    "debtor": "Clelia Marmorosa",
+    "debtor_holder_id": "HLD-CLELIA",
+    "debtor_account_id": "ACC-PAYER2",
+    "debtor_iban": "IT02G9920254321000000777002",
+    "creditor_account_id": "ACC-MAIN",
+    "creditor": "Nebbialunga Servizi Finti S.r.l.",
+    "creditor_iban": "IT41K9910112345000000123456",
+    "end_to_end_id": "E2E-SDD-0001",
     "same_as": "sdd-001-reject-AC04",
-    "folder": "out/<episode>/pain002/<creditor_id>/"
+    "r_transaction": {
+      "kind": "reject",
+      "reason_code": "AC04",
+      "date": "2026-02-09",
+      "initiator": "debtor_psp"
+    },
+    "folder": "out/<episode>/pain002/<creditor_id>/",
+    "episode": "corpus",
+    "msg_seq": 1,
+    "created": "2026-02-09T12:00:00Z",
+    "initiating_party": "Banca Finta del Corpus",
+    "orgnl_msg_nm_id": "pain.008.001.08"
   },
   "expected": {
     "verdict": "accept",

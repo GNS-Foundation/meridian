@@ -12,7 +12,42 @@
   ],
   "title": "camt.054 entry for an SDD return (debit on the creditor) with RtrInf/Rsn/Cd=AM04 and MndtId (same facts as sdd-002)",
   "input": {
-    "same_as": "sdd-002-return-AM04"
+    "collection_id": "COLL-0001",
+    "mandate_id": "UMR-CORPUS-0001",
+    "creditor_id": "IT00ZZZ99101000000001",
+    "sequence_type": "RCUR",
+    "amount_cents": 4500,
+    "requested_collection_date": "2026-02-10",
+    "settlement_date": "2026-02-10",
+    "debtor": "Clelia Marmorosa",
+    "debtor_holder_id": "HLD-CLELIA",
+    "debtor_account_id": "ACC-PAYER2",
+    "debtor_iban": "IT02G9920254321000000777002",
+    "creditor_account_id": "ACC-MAIN",
+    "creditor": "Nebbialunga Servizi Finti S.r.l.",
+    "creditor_iban": "IT41K9910112345000000123456",
+    "end_to_end_id": "E2E-SDD-0001",
+    "same_as": "sdd-002-return-AM04",
+    "r_transaction": {
+      "kind": "return",
+      "reason_code": "AM04",
+      "date": "2026-02-12",
+      "initiator": "debtor_psp"
+    },
+    "account": "ACC-MAIN",
+    "episode": "corpus",
+    "msg_seq": 2,
+    "created": "2026-02-12T18:00:00Z",
+    "bk_tx_cd": {
+      "Domn": "PMNT",
+      "Fmly": "IDDT",
+      "SubFmlyCd": "RRTN"
+    },
+    "orgnl_bk_tx_cd": {
+      "Domn": "PMNT",
+      "Fmly": "IDDT",
+      "SubFmlyCd": "ESDD"
+    }
   },
   "expected": {
     "verdict": "accept",

@@ -17,7 +17,7 @@
     "payer": {
       "holder_id": "HLD-OTTAVIO",
       "display_name": "Ottavio Pietranera",
-      "iban": "IT02G9920254321000000777002"
+      "iban": "IT76H9920254321000000777003"
     },
     "name_noise_ops": [
       "third_party_payer()"
@@ -27,7 +27,7 @@
     "verdict": "accept",
     "emitted_counterparty": {
       "name": "Ottavio Pietranera",
-      "iban": "IT02G9920254321000000777002"
+      "iban": "IT76H9920254321000000777003"
     },
     "answer_key": [
       {

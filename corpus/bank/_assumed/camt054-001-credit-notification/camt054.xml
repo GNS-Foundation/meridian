@@ -3,7 +3,7 @@
   <BkToCstmrDbtCdtNtfctn>
     <GrpHdr><MsgId>corpus-camt054-0001</MsgId><CreDtTm>2026-01-05T18:00:00Z</CreDtTm></GrpHdr>
     <Ntfctn>
-      <Id>corpus-ntfctn-ACC-MAIN-20260105</Id><ElctrncSeqNb>1</ElctrncSeqNb><CreDtTm>2026-01-05T18:00:00Z</CreDtTm>
+      <Id>corpus-ntfctn-ACC-MAIN-20260105</Id><CreDtTm>2026-01-05T18:00:00Z</CreDtTm>
       <Acct><Id><IBAN>IT41K9910112345000000123456</IBAN></Id><Ccy>EUR</Ccy></Acct>
       <Ntry>
         <Amt Ccy="EUR">123.45</Amt><CdtDbtInd>CRDT</CdtDbtInd><Sts><Cd>BOOK</Cd></Sts>

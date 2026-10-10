@@ -46,6 +46,23 @@ def iban_rules(iban):
     if mod97(iban[4:] + iban[:4]) != 1: v.append("IBAN-MOD97")
     if cin_it(iban[5:]) != iban[4]: v.append("IBAN-CIN")
     return v
+_CF = json.loads((HERE / "data" / "codice_fiscale_check.json").read_text(encoding="utf-8"))
+def cf_check_char(first15: str) -> str:
+    """Art. 7, D.M. 23/12/1976 (data/codice_fiscale_check.json): positions counted from 1; odd -> odd table."""
+    total = 0
+    for i, ch in enumerate(first15.upper(), start=1):
+        total += (_CF["odd_positions"] if i % 2 == 1 else _CF["even_positions"])[ch]
+    return _CF["remainder_to_letter"][total % 26]
+def cf_like_rules(code: str) -> list:
+    """A synthetic fiscal_code_like must NOT be a valid codice fiscale: a 16-char value whose 16th char equals the
+    Art. 7 control character of its first 15 is REJECTED (CF-LIKE-INVALID). Shorter/longer values pass by shape."""
+    c = code.upper()
+    if len(c) != 16 or not re.fullmatch(r"[A-Z0-9]{15}[A-Z]", c):
+        return []
+    try:
+        return ["CF-LIKE-INVALID"] if cf_check_char(c[:15]) == c[15] else []
+    except KeyError:
+        return []
 def bic_rules(bic):  return [] if re.fullmatch(r"[A-Z]{4}[A-Z]{2}[A-Z0-9]{2}([A-Z0-9]{3})?", bic) else ["BIC-LEN"]
 def mav_rules(mav):  return [] if re.fullmatch(r"\d{17}", mav) else ["MAV-ID-LEN"]
 
@@ -138,6 +155,7 @@ def rules_for_vector(d, v, artefacts):
     for bic in re.findall(r'"bics?": (?:\[([^\]]*)\]|"([^"]*)")', blob):
         for b in re.findall(r'"([A-Z0-9]+)"', bic[0]) + ([bic[1]] if bic[1] else []): raised += bic_rules(b)
     for mav in re.findall(r'"mav_id": "([0-9]+)"', blob): raised += mav_rules(mav)
+    for cf in re.findall(r'"fiscal_code_like": "([^"]*)"', blob): raised += cf_like_rules(cf)
     for s in re.findall(r'"remittance_emitted": "([^"]*)"', blob):
         if len(s) > 140: raised.append("SEPA-RMT-140")
     for s in re.findall(r'"counterparty_name_emitted": "([^"]*)"', blob):
@@ -185,6 +203,10 @@ def lint(root=HERE, spec=SPEC, verbose=True):
                 fails.append(f"{path}: expected {exp_rule} not detected; detected {sorted(set(raised))}")
         else:
             if raised: fails.append(f"{path}: positive vector raises {sorted(set(raised))}")
+    # synthetic fiscal codes in data/ must fail the D.M. 23/12/1976 check (BANK-001-06, D-11)
+    banks = json.loads((root / "data" / "synthetic_banks.json").read_text(encoding="utf-8"))
+    for h in banks.get("holders", []):
+        if cf_like_rules(h.get("fiscal_code_like", "")): fails.append(f"data/synthetic_banks.json holder {h['holder_id']}: fiscal_code_like is a VALID codice fiscale (CF-LIKE-INVALID)")
     # client-agnostic deny-list (BANK-005-32) — list lives OUTSIDE the repo
     deny_path = os.environ.get("MERIDIAN_DENYLIST_FILE")
     deny_status = "SKIPPED (MERIDIAN_DENYLIST_FILE unset; the deny-list is kept outside this public repository)"
@@ -243,6 +265,7 @@ def self_test():
       ("IBAN-LEN-IT-27",            lambda: iban_rules(good_iban[:-1])),
       ("BIC-LEN",                   lambda: bic_rules("FNTAITMMX")),
       ("MAV-ID-LEN",                lambda: mav_rules("9000100000004261")),
+      ("CF-LIKE-INVALID",            lambda: cf_like_rules("MRMCLL99Z99Z999" + cf_check_char("MRMCLL99Z99Z999"))),
     ]
     ok = True
     for rule, mutant in cases:
@@ -250,7 +273,7 @@ def self_test():
         hit = rid in raised
         print(f"  {'PASS' if hit else 'FAIL'}  {rule:<32} mutated -> {sorted(set(raised))}")
         ok &= hit
-    clean = check_rh(good_rh) + sum((iban_rules(x) for x in ibans_in_rh(good_rh)), []) + sum((iban_rules(x) for x in re.findall(r"<IBAN>([^<]*)</IBAN>", good_xml)), [])
+    clean = check_rh(good_rh) + sum((iban_rules(x) for x in ibans_in_rh(good_rh)), []) + sum((iban_rules(x) for x in re.findall(r"<IBAN>([^<]*)</IBAN>", good_xml)), []) + cf_like_rules("MRMCLL99Z99Z999Z") + cf_like_rules("MRMCLL99Z99Z999Z")
     print(f"  {'PASS' if not clean else 'FAIL'}  originals clean (restore)            -> {clean}")
     ok &= not clean
     return ok
