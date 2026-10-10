@@ -15,7 +15,7 @@ Checks
   * Identifiers in vector inputs: BIC length (8/11), MAV id 17 digits; remittance ≤ 140; name ≤ 40.
   * Positive vectors must raise no rule; negative vectors must raise exactly their expected rule_id.
   * Client-agnostic deny-list: read from the file named by MERIDIAN_DENYLIST_FILE (one term per line,
-    case-insensitive); if unset the check is SKIPPED with a reason (the list is never stored in this repo).
+    case-insensitive WHOLE-WORD match); if unset the check is SKIPPED with a reason (the list is never stored here).
   * Coverage: which BANK requirement ids have no vector.
 Exit 1 on any failure.
 """
@@ -189,12 +189,16 @@ def lint(root=HERE, spec=SPEC, verbose=True):
     deny_path = os.environ.get("MERIDIAN_DENYLIST_FILE")
     deny_status = "SKIPPED (MERIDIAN_DENYLIST_FILE unset; the deny-list is kept outside this public repository)"
     if deny_path:
-        terms = [t.strip().lower() for t in pathlib.Path(deny_path).read_text(encoding="utf-8").splitlines() if t.strip() and not t.startswith("#")]
+        terms = [t.strip() for t in pathlib.Path(deny_path).read_text(encoding="utf-8").splitlines() if t.strip() and not t.startswith("#")]
+        # case-insensitive WHOLE-WORD matching: a term matches only when not glued to other word characters on
+        # either side, so a short term never hits inside a longer word. Multi-word terms and terms containing
+        # punctuation are matched literally as a unit. (No example terms here: this file is itself scanned.)
+        patterns = [(t, re.compile(r"(?<!\w)" + re.escape(t) + r"(?!\w)", re.IGNORECASE)) for t in terms]
         hits = []
         for p in list(root.rglob("*")) + list(spec.glob("*.md")):
             if p.is_file() and p.suffix in (".json", ".txt", ".xml", ".md", ".py"):
-                low = p.read_text(encoding="utf-8", errors="replace").lower()
-                hits += [f"{p.relative_to(root.parent.parent)}: '{t}'" for t in terms if t in low]
+                text = p.read_text(encoding="utf-8", errors="replace")
+                hits += [f"{p.relative_to(root.parent.parent)}: '{t}'" for t, rx in patterns if rx.search(text)]
         deny_status = f"checked {len(terms)} terms: " + ("no hits" if not hits else f"{len(hits)} hit(s)")
         fails += [f"deny-list hit: {h}" for h in hits]
     uncovered = sorted(spec_ids - set(covered))

@@ -75,7 +75,8 @@ lint as not evaluable by the corpus check.
 
 The lint can scan `corpus/` and `spec/` for a deny-list of real institution or client identifiers. That list is **never
 stored in this public repository**: set `MERIDIAN_DENYLIST_FILE` to a local file (one term per line, `#` comments) and
-run the lint; any case-insensitive hit fails the run. When the variable is unset the check is **skipped with a stated
+run the lint; any case-insensitive **whole-word** hit fails the run (a term matches only when not glued to
+other word characters, so a short term never hits inside a longer word; multi-word terms match as a unit). When the variable is unset the check is **skipped with a stated
 reason**, not silently passed. The repository's own sweep policy is that fictional names must be sector-neutral and
 must not hint at any real organisation.
 
